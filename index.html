@@ -180,25 +180,25 @@
 	
 	function calculatingANSWER(ecArray){
 	
-		V0 = $$("Theta_r").getValue();
-		V1 = $$("Theta_s").getValue();
-		V2 = $$("Beta").getValue();
-		V3 = $$("Eta").getValue();
-		V4 = $$("PsiWater").getValue();
-		V5 = $$("Ks").getValue();
+		V0 = Number($$("Theta_r").getValue());
+		V1 = Number($$("Theta_s").getValue());
+		V2 = Number($$("Beta").getValue());
+		V3 = Number($$("Eta").getValue());
+		V4 = Number($$("PsiWater").getValue());
+		V5 = Number($$("Ks").getValue());
 		V6 = V3/V2; //Delta
-		V7 = $$("Tp").getValue();
-		V8 = $$("EC50").getValue();
-		V9 = $$("p").getValue();
-		V10 = $$("b").getValue();
-		V11 = $$("PsiRoot").getValue();
-		V12 = $$("Yr0").getValue();
-		ecMin = $$("minEC").getValue();
-		ecMax = $$("maxEC").getValue();
-		ecStep = $$("stepEC").getValue();
-		iMin = $$("minI").getValue();
-		iMax = $$("maxI").getValue();
-		iStep = $$("stepI").getValue();	
+		V7 = Number($$("Tp").getValue());
+		V8 = Number($$("EC50").getValue());
+		V9 = Number($$("p").getValue());
+		V10 = Number($$("b").getValue());
+		V11 = Number($$("PsiRoot").getValue());
+		V12 = Number($$("Yr0").getValue());
+		ecMin = Number($$("minEC").getValue());
+		ecMax = Number($$("maxEC").getValue());
+		ecStep = Number($$("stepEC").getValue());
+		iMin = Number($$("minI").getValue());
+		iMax = Number($$("maxI").getValue());
+		iStep = Number($$("stepI").getValue());	
 		V13 = ecArray; //3.5;	//EC
 		V14 = 3;	//I
 		var V = [V0,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,V11,V12,V13,V14];
@@ -263,9 +263,9 @@ $$("calcYield").attachEvent("onItemClick", function(){
 	lineChartData.labels = []; //add 'labels' element to object (X axis)
 	lineChartData.datasets = []; //add 'datasets' array element to object
 
-	ecMin = $$("minEC").getValue();
-	ecMax = $$("maxEC").getValue();
-	ecStep = $$("stepEC").getValue();
+	ecMin = Number($$("minEC").getValue());
+	ecMax = Number($$("maxEC").getValue());
+	ecStep = Number($$("stepEC").getValue());
 	var ecArray = [];
 	var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
 
