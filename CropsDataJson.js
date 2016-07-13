@@ -3,8 +3,17 @@
 var cropsDataSet = [
 		
 		{ "id":1, "cropName": "Banana", "Tp":6, "EC50":2.2, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
-		{ "id":2, "cropName": "Corn", "Tp":4, "EC50":5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0 },
-		{ "id":3, "cropName": "Pepper", "Tp":5, "EC50":2.5, "p":3, "PsiRoot":6000, "b":10,  "Yr0":0 }
+		{ "id":2, "cropName": "Basil", "Tp":4, "EC50":5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":3, "cropName": "Corn", "Tp":4, "EC50":5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0 },
+		{ "id":4, "cropName": "Dates", "Tp":5.5, "EC50":5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":5, "cropName": "Grape", "Tp":9, "EC50":2.5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":6, "cropName": "Mango", "Tp":6, "EC50":3, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":7, "cropName": "Melon", "Tp":6, "EC50":7.5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":8, "cropName": "Onion", "Tp":7, "EC50":3.5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":9, "cropName": "Parsely", "Tp":4, "EC50":3.5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":10, "cropName": "Pepper", "Tp":5, "EC50":2.5, "p":3, "PsiRoot":6000, "b":10,  "Yr0":0 },
+		{ "id":11, "cropName": "Sunflower", "Tp":8, "EC50":10, "p":3, "PsiRoot":6000, "b":10, "Yr0":0},
+		{ "id":12, "cropName": "Tomato", "Tp":6, "EC50":5.5, "p":3, "PsiRoot":6000, "b":10, "Yr0":0}
 		
 		];
 		
