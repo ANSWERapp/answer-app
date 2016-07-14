@@ -359,14 +359,12 @@ function yr_EC_I(){
 			var dataYield = null;
 			dataYield = [];
 
-			for (m=0; m<irrArrayLength; m++){
-				dataYield.push({id:(m+1), value:d[g][m], irrg:irrArray[m], nowEC: currentEC })
-			}
+			//for (m=0; m<irrArrayLength; m++){
+			//	dataYield.push({id:(m+1), value:d[g][m], irrg:irrArray[m], nowEC: currentEC })
+			//}
+			dataYield+=d[g];
 			dataVectors[g] = dataYield;
-				
-				//var data5 = dataVectors[5];
-				//var data0 = dataVectors[0];
-				//console.log(dataYield)
+
 		}
 	return dataVectors;
 }
