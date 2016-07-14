@@ -373,7 +373,7 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 
 	var dataForExcel = [];
 	var dataVectors = yr_EC_I();
-	dataVectors.join(',');
+	dataVectors.join('\n');
 	var dataForExcel = new webix.DataCollection({
 		data: dataVectors //the datasource
 	});
