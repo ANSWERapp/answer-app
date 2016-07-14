@@ -297,11 +297,11 @@ $$("calcYield").attachEvent("onItemClick", function(){
 
 		lineChartData.datasets[line].data = y; //send new line data to dataset
 	} 
-	var myNewChart = null;
+	//var myNewChart = null;
 	var ctx = document.getElementById("myChart");
-	if (myNewChart){
-		myNewChart.destroy();
-		console.log("destoying")
+	if (myNewChart != null){
+		myNewChart.removeData();
+		//console.log("destoying")
 	}
 	var myNewChart = new Chart(ctx, {
 		type: 'line',
