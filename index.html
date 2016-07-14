@@ -379,7 +379,10 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 		data: dataVectors //the datasource
 	});
 	
-	webix.toExcel(dataForExcel);
+	webix.toExcel(dataForExcel,{
+		filename: "ANSWERmodelData", // for filename
+     		name: "ANSWER model - Data" / for sheet name
+	});
 });
 	
 		</script>
