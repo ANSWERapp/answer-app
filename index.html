@@ -297,8 +297,11 @@ $$("calcYield").attachEvent("onItemClick", function(){
 
 		lineChartData.datasets[line].data = y; //send new line data to dataset
 	} 
-	//var myNewChart = null;
-	var ctx = document.getElementById("myChart");
+	
+	document.getElementById("chartjsChartYield").innerHTML = '&nbsp;';
+	document.getElementById("chartjsChartYield").innerHTML = '<canvas id="myChart" width="485" height="400"></canvas>';
+	var ctx = document.getElementById("myChart").getContext("2d");
+	
 	if (myNewChart != null){
 		myNewChart.removeData();
 		//console.log("destoying")
