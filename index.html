@@ -213,7 +213,6 @@
 		var irrArrayLength = Math.floor((iMax-iMin)/iStep);
 		for (j=0; j<irrArrayLength; j++){
 			functYield = [];
-			var x4 = null;
 			var x5 = null;
 			var x6 = null;
 			irrArray[j] = parseFloat(iMin)+j*parseFloat(iStep);
@@ -228,7 +227,14 @@
 			functYield = clear(functYield);
 			x5 = Math.min.apply(null, functYield);
 			x6 = functYield.indexOf(x5);
-			d[j] = x6*dx/(V7*(1-V12))+V12;
+			p1 = new BigNumber(V7);
+			p2 = new BigNumber(V12);
+			var corr = p2.minus(1).times(-1)
+			p3 = new BigNumber(x6);
+			p4 = new BigNumber(dx);
+			var prec = p3.times(p4)
+			prec = prec.dividedBy(p1).times(corr).plus(p2);
+			d[j] = prec.toNumber();
 		
 		}
 		
