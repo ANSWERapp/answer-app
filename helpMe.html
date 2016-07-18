@@ -6,6 +6,104 @@
     <body>
 		<img id="myImage" src="ANSWERicon.gif" style="float:left;">
 		<h1 style="color:gray;font-family:'PT Sans',Tahoma;" id="header">Help Me!</h1>
-		
+		<div id="helpText" 
+			style="font-family:'PT Sans',Tahoma;width:900px;height:1000px;margin-left:20px; line-height:30px;">
+		<p>
+		This model has 2 parts - the ANSWER model (which calculates water use or yield as a function of soil, crop, climate, irrigation water salinity and irrigation water amount) and the economic model (which calculates farm profits based on the results of ANSWER).
+
+In order to receive output from the model you must do the following: </p>
+<h2 style="color:gray;font-family:'PT Sans',Tahoma;font-size:20px">
+Part 1: </h2>
+<p>
+(1) <b>Choose a crop type:</b></p><p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each crop has 6 parameters that can be edited manually. <b>Tp</b> (potential transpiration) is average daily crop transpiration (mm).<b> EC50</b> and<b> p</b> characterize the sigmoidal crop response curve to salinity where EC50 is the soil saturated paste solution electrical conductivity causing 50% yield decrease and p is an exponent term often assumed to = 3 for agricultural crops. <b>Psi root</b> (&Psi;root) is a measure of water head at the root soil interface; &Psi;root = (-) 6000 mm is likely appropriate for most crops. <b>b</b> is the effective distance between roots and soil and will often be assumed to be 10 mm. <b>Yr0</b> is a fitting term to consider yield expected with zero irrigation.
+</p><p>
+(2) <b>Choose a soil type:</b></p><p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Each soil type has 6 parameters that can be edited manually. Each soil type has 6 parameters that can be edited manually. <b>Ks</b> is saturated hydraulic conductivity, <b>theta_s</b> (&theta;s) is saturated soil water content and <b>theta_r</b> (&theta;r) is residual soil water content). <b>beta</b> (&beta;), <b>eta</b> (&eta;) and <b>delta</b> (&delta;) are empirical parameters of the Brooks-Corey soil hydraulic model where &delta;=&eta;&beta;-1. <b>Psi water</b> (&Psi;water) is soil air entry head.
+</p><p>
+(3) <b>Fix parameters to suit your inquiry:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a) <u>Water salinity</u> - the range (minimum to maximum) and step size (increments in the range), can be set manually.
+    </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(b) <u>Irrigation</u> - the range (minimum to maximum) and step size (increments in the range), can be set manually. Maximum irrigation is set initially to be 2 times Tp.
+</p><p>
+(4) <b>Calculate relative yield:</b></p><p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press the '<b>Calculate yield</b>' button to plot the ANSWER model relative yield, as a function of both water salinity and irrigation. You may save the figure (using the save icon at the bottom of the figure), and/or export the plotted data to an EXCEL file using the '<b>Export to Excel</b>' button.
+</p><p>
+<h2 style="color:gray;font-family:'PT Sans',Tahoma;font-size:20px">
+Part 2:
+</h2>
+</p><p>
+(5) <b>Water pricing:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You may choose either '<b>Fresh water</b>' or '<b>Brackish water</b>'. </p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choosing fresh water exhibits a uniform price for all salinity values; the price can be edited manually. Brackish water have different values for different salinities, which may also be edited.
+</p><p>
+(6) <b>Quota deviation:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In order to take into account quota deviation you must check the '<b>include quota deviation</b>' box. </p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a) <u>Fresh water</u> - fixed price is set for up to 30% deviation, and for above 30% deviation (can be edited).
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(b) <u>Brackish water</u> - precentage of price increase for up to 8% deviation, and for above 8% deviation (can be edited).
+</p><p>
+(7) <b>Economic parameters:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(a) Dunam/Hectare amount - set the size of the farm/field in appropriate units.
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(b) Revenue (per ton) - the seasonal revenue of the given crop per ton.
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(c) Return (per dunam/hectare) - yearly return on capital investment, with 7&#37; interest.
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(d) Yield dependent costs (per ton) -  set the yield dependent costs.
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(e) Fixed costs (per dunam/hectare) - fixed costs, such as - labor, energy, pesticides, etc.
+     </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(f) Season length - the length of the crop's season, in months.
+</p><p>
+(8) <b>Calculate the profit:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Press the '<b>Calculate profit</b>' button to plot the estimated profit, as a function of both water salinity and irrigation. You may save the figure (using the save icon at the bottom of the figure), and/or export the plotted data to an EXCEL file using the '<b>Export to Excel</b>' button.
+On the top-left corner of the figure you will find the maximum profit and its water-salinity and irrigation values.
+</p><p>
+(9) <b>Reset:</b></p><p>
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pressing the 'Reset' button will delete all changes you made, and return to the initial state. You will need to choose again a crop and soil (start over again) to use the model. Another way to reset is to close and open again the application.
+</p><p>
+(10) <b>NIS/USD:</b></p><p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Changing the currency from NIS to USD can be done at the right-bottom menu. The value of the currency rate can be set manually (you may use this feature to mimic other currencies).
+</p><p>
+(11) <b>Dunam/Hectare:</b></p><p>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Use the option at the right-bottom menu to change from dunam to hectare (and vice versa), to your convenience.
+
+</p><p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+For further assistance you may contact the developers of this application:
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</p><p>
+
+The <b>An</b>alytical <b>S</b>alt-<b>W</b>ater (ANSWER) model (Shani et al., 2007, 2009) is a one-dimensional mechanistic-based tool, governed by physical and biological soil-plant-atmosphere processes, that considers multiple environmental variables and stressors and their combined effect on plant response, expressed as water use or biomass production. The ANSWER model captures essential factors of the soil-plant-atmospheric system as a closed form analytical solution. The analytical approach is based on four assumptions: environmental conditions in the root zone affecting plant growth and uptake can be represented by effective values of relevant parameters including water content and soil salinity (expressed as EC), conditions are steady state with respect to water and salt status (thus there are no time dimensions), a proportional relationship exists between the ratio of yield to potential yield which relates to biomass production, and finally that the climate conditions are static. The ANSWER model consists of a water balance, a salt balance, a hydraulic water content and water movement model (Brooks and Corey 1964, 1966), a root water uptake response model (Nimah and Hanks 1973), and the van Genuchten and Gupta (1993) uptake reduction due to salinity function. These allow the consideration of management (irrigation water quantity and quality), biological (plant response), and physical (soil, water and weather) variables in a closed form equation.
+
+The ANSWER model is presented, explained and applied in Shani et al (2007, 2009) and has been further applied in a number of published agronomic, horticultural, environmental and economic studies (Ben-Gal 2007; Ben-Gal et al., 2008; Ben-Gal et al., 2009; Ben-Gal et al., 2013; Ben-Gal et al., 2011; Hadas et al., 2016).
+
+</p><p>
+<h2 style="color:gray;font-family:'PT Sans',Tahoma;font-size:20px">
+Referrences:  </h2> 
+</p><p>
+Ben-Gal A. (2007) Irrigation in the Negev: combination of high climate demand and saline water. Mayim VeHashkaya. 487, 16-19. (Hebrew)
+</p><p>
+Ben-Gal A., Ityel E., Dudley L., Cohen S, Yermiyahu U, Presnov E, Zigmond L, Shani U. (2008) Effect of irrigation water salinity on transpiration and on leaching requirements: A case study for bell peppers. Agric. Water Manag. 95, 587-597.
+</p><p>
+Ben-Gal A., Lazarovitch N., Cohen S., Yermiyahu U. (2011) Irrigation with desalinated water: adding fertilizers or mixing with brackish water? Mayim VeHashkaya, (Hebrew)
+</p><p>
+Ben-Gal, A, Weikard, H-P, Shah SH, van der Zee S. (2013) A coupled agronomic-economic model to consider allocation of brackish irrigation water. Water Resour. Res. 49, 2861-2871. doi:10.1002/wrcr.20258.
+</p><p>
+Ben-Gal A Yermiyahu U and Cohen S. (2009) Fertilization and blending alternatives for irrigation with desalinated water. J Environ Qual. 38, 529-536.
+</p><p>
+Brooks, R.H. and Corey, A.T. (1964). Hydraulic properties of porous media. Colorado State Univ. Hydrology Paper 3 Civil Engineering Dept. Colorado St Univ. Fort Collins, CO. 
+</p><p>
+Brooks, R.H., and A.T. Corey, (1966). Properties of porous media affecting flow. ASCE J Irrig. Drainage, Div. 72(IR2), 61-88.
+</p><p>
+Hadas, E., Tripler, E., Dag, A., Ben-Gal, A. (2016) Influence of irrigation water with salts on growers’ profits. Mayim VeHashkaya, 543, 16-21. (Hebrew)
+</p><p>
+Nimah, N.M., and R.J. Hanks, (1973), Model for estimating soil water, plant and atmospheric interrelations: I. Description and sensitivity. Soil Sci. Soc. Am. Proc. 37, 522-527.
+</p><p>
+Shani, U., Ben-Gal, A., Tripler, E., and Dudley, L. M. (2007). Plant response to the soil environment: An analytical model integrating yield, water, soil type, and salinity. Water Resources Research 43. W08418, doi:10.1029/2006WR005313.
+</p><p>
+Shani, U., Ben-Gal, A., Tripler, E. and Dudley, L.M. (2009). Correction to “Plant response to the soil environment: An analytical model integrating yield, water, soil type, and salinity”. Water Resources Res., 45, W05701, doi:10.1029/2009WR008094. 
+</p><p>
+van Genuchten, M.Th., and S.K. Gupta, (1993). A reassessment of the crop response function, H. Indian Soc. Soil Sci. 41, 730-737.
+
+</p>
+
+</div>
 	</body> 
 </html>
