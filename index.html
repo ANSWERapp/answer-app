@@ -326,6 +326,12 @@ webix.ui({
 		$$("PsiRoot").setValue(cropsDataSet[(id-1)].PsiRoot)
 		$$("Yr0").setValue(cropsDataSet[(id-1)].Yr0)
 		$$("maxI").setValue(2*Number($$("Tp").getValue()))
+		$$("revenuePerTon").setValue(cropsDataSet[(id-1)].Rev)
+		$$("returnPerDunam").setValue(cropsDataSet[(id-1)].Ret)
+		$$("yieldCostsPerTon").setValue(cropsDataSet[(id-1)].YDP)
+		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed)
+		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
+
 		});
 	$$("soillist").attachEvent("onChange", function(id){
 		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
