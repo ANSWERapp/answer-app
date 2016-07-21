@@ -491,12 +491,11 @@ $$("calcYield").attachEvent("onItemClick", function(){
 						}
 				}],
 				xAxes: [{
-					scaleLabel: {
-						display: true,
-						labelString: 'Irrigation [mm/day]'
-						}
-				}]
-			},
+					ticks:{
+						maxRotation:25,
+						padding:100,
+						maxTicksLimit:20
+					},
 			legend:{
 				position:'bottom'
 			}
