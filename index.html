@@ -156,15 +156,19 @@
 			    type:"space", padding:8,
 				view:"fieldset", label:"Parameters", body:{
                 rows:[
+					{template:" ", borderless:true, height:20},
                     {view:"fieldset", body:{
 					rows:[{view:"label", label: "Water salinity (EC) [dS/m]:", css:"myBold"},
+						  {template:" ", borderless:true, height:12},
 						  {cols:[{view:"text", label:"min:" ,id: "minEC", value: 0.5},
 						  {view:"text", label:"max:", id: "maxEC", value: 6.5}]},
 						  {cols:[{view:"text", label:"step:", id: "stepEC", value: 0.5},
 						  {template:" ", borderless:true}]}]
 					}},
+					{template:" ", borderless:true, height:12},
 					{view:"fieldset", body:{
 					rows:[{view:"label", label: "Irrigation (I) [mm/day]:", css:"myBold"},
+						  {template:" ", borderless:true, height:12},
 						  {cols:[{view:"text", label:"min:", id: "minI", value: 0.7},
 						  {view:"text", label:"max:", id: "maxI", value: 8.0}]},
 						  {cols:[{view:"text", label:"step:", id: "stepI", value: 0.5},
