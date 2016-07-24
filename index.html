@@ -322,7 +322,8 @@ webix.ui({
 			$$("freshCheckbox").setValue(0);
 		}
 	});
-	
+
+var yi100=12.5;	//default crop - corn (?)	
 // bind crop and soil choice of user to parameter values:
 	$$("croplist").attachEvent("onChange", function(id){
 		$$("Tp").setValue(cropsDataSet[(id-1)].Tp)
@@ -337,7 +338,7 @@ webix.ui({
 		$$("yieldCostsPerTon").setValue(cropsDataSet[(id-1)].YDP)
 		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed)
 		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
-
+		yi100 = cropsDataSet[(id-1)].y100
 		});
 	$$("soillist").attachEvent("onChange", function(id){
 		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
@@ -510,6 +511,14 @@ $$("calcYield").attachEvent("onItemClick", function(){
 			},
 			legend:{
 				position:'bottom'
+			},
+			zoom:{
+				enabled: true,
+				mode: 'xy'
+			},
+			pan:{
+				enabled: true,
+				mmode: 'xy'
 			}
 		}
 	});
