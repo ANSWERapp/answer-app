@@ -587,6 +587,289 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	result[0] = iArray;
 	saveToExcel(result)
 });
+
+function calculateProfit(){
+	// EC (salinity) array:
+	ecMin = $$("minEC").getValue();
+	ecMax = $$("maxEC").getValue();
+	ecStep = $$("stepEC").getValue();
+	var ecArray = [];
+	var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
+	for (g=0; g<ecArrayLength; g++){
+		ecArray[g] = parseFloat(ecMin)+g*parseFloat(ecStep);
+	}
+	
+	// I (irrigation) array:
+	iMin = Number($$("minI").getValue());
+	iMax = Number($$("maxI").getValue());
+	iStep = Number($$("stepI").getValue());	
+	var iArray = [];
+	var irrArrayLength = Math.floor((iMax-iMin)/iStep);
+	for (j=0; j<(irrArrayLength); j++){
+		iArray[j] = iMin+j*iStep;
+	}
+	
+	var sal = [];
+	
+	// Sal array - price per salinity, in case 'brackish' was checked:
+	if ($$("brackishCheckbox").getValue()==1){
+		S1_9 = Number($$("s1_9").getValue())
+		S1_9_2_65 = Number($$("s1_9_2_65").getValue())
+		S2_65_3_4 = Number($$("s2_65_3_4").getValue())
+		S3_4_4_1 = Number($$("s3_4_4_1").getValue())
+		S4_1_4_8 = Number($$("s4_1_4_8").getValue())
+		S4_8_5_2 = Number($$("s4_8_5_2").getValue())
+		S5_2 = Number($$("s5_2").getValue())
+		
+		for(i=0; i<ecArrayLength; i++){
+			if(ecArray[i]<1.9){
+				sal[i]=S1_9;
+			}
+			else if (ecArray[i]>=1.9 && ecArray[i]<2.65){
+				sal[i]=S1_9_2_65;
+			}
+			else if (ecArray[i]>=2.65 && ecArray[i]<3.4){
+				sal[i]=S2_65_3_4;
+			}
+			else if (ecArray[i]>=3.4 && ecArray[i]<4.1){
+				sal[i]=S3_4_4_1;
+			}
+			else if (ecArray[i]>=4.1 && ecArray[i]<4.8){
+				sal[i]=S4_1_4_8;
+			}
+			else if (ecArray[i]>=4.8 && ecArray[i]<5.2){
+				sal[i]=S4_8_5_2;
+			}
+			else if (ecArray[i]>=5.2){
+				sal[i]=S5_2;
+			}
+		}
+	}
+	// Sal array - price per salinity, in case 'fresh' was checked:
+	if ($$("freshCheckbox").getValue()==1){
+		Sfresh = Number($$("freshWaterPrice").getValue());
+		for (i=0; i<ecArrayLength; i++){
+			sal[i]=Sfresh;
+		}
+	}
+	
+	// Economic parameters, as specified by user:
+	Dun = Number($$("dunamAmount").getValue())
+	Revenue = Number($$("revenuePerTon").getValue())
+	ReturnPerD = Number($$("returnPerDunam").getValue())
+	YieldCostsPerTon = Number($$("yieldCostsPerTon").getValue())
+	FixedPerD = Number($$("fixedCostsPerDunam").getValue())
+	SeasonLength = Number($$("seasonLength").getValue())
+	YieldCorrFactor = yi100; 	// correlation factor for relative yield - to yield per ton/dunam (?)
+	
+	var days = SeasonLength*30 //number of days in seasonLength
+	var waterAmount = [];
+	var waterPrice = [];
+
+	// not including quota deviation:
+	if ($$("quotaCheckbox").getValue()==0){
+		waterAmount = iArray.map(function(x) {return x*days;});
+		for(c=0; c<ecArrayLength; c++){
+			waterPrice[c] = [];
+			for(t=0; t<irrArrayLength; t++){
+				waterPrice[c][t] = waterAmount[t]*sal[c];
+			}
+		}	
+	}
+	
+	// including quota deviation:
+	var priceA = [];
+	var priceB = [];
+	var priceA_perSal = [];
+	var priceB_perSal = [];
+	var precentage = [];
+	var waterAmount = [];
+	var quo = Number($$("quotaPerDunam").getValue());
+	if ($$("quotaCheckbox").getValue()==1){
+	
+		waterAmount = iArray.map(function(x) {return x*days;});
+	
+		// in case of fresh water:
+		if($$("freshCheckbox").getValue()==1){
+			priceA = Number($$("devUpto30").getValue());
+			priceB = Number($$("devAbove30").getValue());
+			precentage = 30/100;
+			priceA_perSal = sal.map(function(x) {return priceA;});
+			priceB_perSal = sal.map(function(x) {return priceB;});
+		}
+		
+		// in case of brackish water:
+		if($$("brackishCheckbox").getValue()==1){
+			priceA = Number($$("devUpto8").getValue());
+			priceB = Number($$("devAbove8").getValue());
+			precentage = 8/100;
+			priceA_perSal = sal.map(function(x) {return x*priceA/100;});
+			priceB_perSal = sal.map(function(x) {return x*priceB/100;});
+		}
+
+		for (l=0; l<ecArrayLength; l++){
+			waterPrice[l] = [];
+			for (z=0; z<irrArrayLength; z++){
+				var res = [];
+				if (waterAmount[z]>quo){
+					res = waterAmount[z]-quo;
+					if (res<=precentage*quo){
+						waterPrice[l][z] = quo*sal[l] + res*priceA_perSal[l];
+					}else if (res>precentage*quo){
+						waterPrice[l][z] = quo*sal[l] + precentage*quo*priceA_perSal[l] + (res-(precentage*quo))*priceB_perSal[l]
+					}
+				} else {
+					waterPrice[l][z] = waterAmount[z]*sal[l];
+				}
+			}
+		}
+	}
+	
+	// relative yield
+	var rYdata = [];
+	var rYdata_raw = [];
+	rYdata_raw = yr_EC_I();
+	for(row =0 ; row < rYdata_raw.length; row++){
+		var a = rYdata_raw[row].split(",")
+		var x = [];
+		for (i=0; i<a.length; i++){
+			x[i] = parseFloat(a[i])
+		}
+					
+		rYdata[row] = x;
+	};
+
+	// calculate profit per EC (salinity):
+	var prof = [];
+	prof[0] = [];
+	var M = YieldCostsPerTon*YieldCorrFactor;
+	var N = Revenue*YieldCorrFactor;
+	for (k=0; k<ecArrayLength; k++){
+		var yieldcosts = [];
+		var revenue = [];
+		var prof_n = [];
+		for(n=0; n<irrArrayLength; n++){
+			yieldcosts[n] = M*rYdata[k][n];
+			revenue[n] = N*rYdata[k][n];
+			prof_n[n] = revenue[n]-yieldcosts[n]-FixedPerD-ReturnPerD-waterPrice[k][n];
+		}
+		prof[k] = prof_n.map(function(x) {return x*Dun;});
+	}
+	return [prof, ecArray, iArray]
+}
+
+$$("calcProfit").attachEvent("onItemClick", function(){
+
+	webix.message("Calculating profit...");
+	
+	[prof, ecArray, iArray] = calculateProfit();
+	
+	var lineChartData = {}; //declare an object
+	lineChartData.labels = []; //add 'labels' element to object (X axis)
+	lineChartData.datasets = []; //add 'datasets' array element to object
+
+	var ecArrayLength = ecArray.length;
+
+	for (line = 0; line < ecArrayLength; line++) {
+
+		ecArray[line] = parseFloat(ecMin)+line*parseFloat(ecStep);
+				
+		var currentEC = [];
+		currentEC = "EC="+ecArray[line];
+
+		y = [];
+		lineChartData.datasets.push({}); //new line dataset
+		dataset = lineChartData.datasets[line]
+		dataset.fillColor = getRandomColor();
+		dataset.strokeColor = 'black';
+		dataset.backgroundColor = getRandomColor();
+		dataset.fill = false;
+		dataset.data = []; 
+		dataset.label = currentEC;
+
+		for (x = 0; x < irrArrayLength; x++) {
+			y.push(prof[line][x]); //generate separate data lines
+			if (line === 0)
+				lineChartData.labels.push(iArray[x].toFixed(1)); 
+			} 
+
+		lineChartData.datasets[line].data = y; //send new line data to dataset
+	} 
+	
+	document.getElementById("chartjsChartProfit").innerHTML = '&nbsp;';
+	document.getElementById("chartjsChartProfit").innerHTML = '<canvas id="myChartProfit" width="485" height="400"></canvas>';
+	var ctx = document.getElementById("myChartProfit").getContext("2d");
+	
+	var myNewProfitChart = new Chart(ctx, {
+		type: 'line',
+		data: lineChartData,
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Profit [NIS]'
+						}
+				}],
+				xAxes: [{
+					ticks:{
+						maxRotation:25,
+						padding:100,
+						maxTicksLimit:20
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Irrigation [mm/day]'
+						}
+				}]
+			},
+			legend:{
+				position:'bottom'
+			},
+			zoom:{
+				enabled: true,
+				mode: 'xy'
+			},
+			pan:{
+				enabled: true,
+				mmode: 'xy'
+			}
+		}
+	});
+	myNewProfitChart.update();
+});
+
+$$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
+	
+	[prof, ecArray, iArray] = calculateProfit();
+
+	var myProfitArray = prof;
+	var iArray_new = []
+	iArray_new[0] = 0;
+	iArray_new.push(...iArray);
+	
+	var result = [];	
+	result[1] = [];
+	for(row =0 ; row < myProfitArray.length; row++){
+		var x = [];
+		x[0] = ecMin+row*ecStep;
+		var array = [];
+		array = myProfitArray[row].map(function(value, index) {
+			return value;
+			});
+		for (h=0; h<iArray.length; h++){
+			x[h+1] = array[h]
+		}			
+		result[row+1] = x;
+	};
+	result[0] = iArray_new;
+	result[0][0] = "EC/I"
+
+	saveProfitToExcel(result)
+});
 	
 		</script>
     </body> 
