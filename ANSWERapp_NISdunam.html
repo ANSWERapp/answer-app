@@ -325,7 +325,7 @@ webix.ui({
 		}
 	});
 
-var yi100=12.5;	//default crop - corn (?)	
+var yi100=30.8325;	//default crop - tomato	
 // bind crop and soil choice of user to parameter values:
 	$$("croplist").attachEvent("onChange", function(id){
 		$$("Tp").setValue(cropsDataSet[(id-1)].Tp)
@@ -527,9 +527,9 @@ $$("calcYield").attachEvent("onItemClick", function(){
 });
 
 function yr_EC_I(){
-		ecMin = $$("minEC").getValue();
-		ecMax = $$("maxEC").getValue();
-		ecStep = $$("stepEC").getValue();
+		ecMin =Number($$("minEC").getValue());
+		ecMax = Number($$("maxEC").getValue());
+		ecStep = Number($$("stepEC").getValue());
 		var ecArray = [];
 		var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
 		var dataVectors = [];
@@ -590,9 +590,9 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 
 function calculateProfit(){
 	// EC (salinity) array:
-	ecMin = $$("minEC").getValue();
-	ecMax = $$("maxEC").getValue();
-	ecStep = $$("stepEC").getValue();
+	ecMin = Number($$("minEC").getValue());
+	ecMax = Number($$("maxEC").getValue());
+	ecStep = Number$$("stepEC").getValue());
 	var ecArray = [];
 	var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
 	for (g=0; g<ecArrayLength; g++){
