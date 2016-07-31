@@ -348,6 +348,14 @@ var yi100=12.5;	//default crop - corn (?)
 		$$("Theta_s").setValue(soilsDataSet[(id-1)].Theta_s)
 		$$("PsiWater").setValue(soilsDataSet[(id-1)].PsiWater)
 		});
+		
+// limit Imin to 0.5:
+	$$("minI").attachEvent("onChange", function(){
+		var minIchangedValue = Number($$("minI").getValue());
+		if (minIchangedValue<0.5){
+			$$("minI").setValue(0.5);
+		}
+	});	
 	
 	function calculatingANSWER(ecArray){
 	
