@@ -1,0 +1,880 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+      <link rel="stylesheet" href="webix.css" type="text/css" charset="utf-8">
+      <link rel="stylesheet" href="font-awesome.css" type="text/css" charset="utf-8">
+      <script src="webix.js" type="text/javascript" charset="utf-8"></script>
+		  <script src = "CropsDataJson.js" ></script>
+		  <script src = "calcT.js" ></script>
+		  <script src = "Chart.js"></script>
+		  <script src = "bignumber.js" ></script>
+		  <script src = "FileSaver.js" ></script>
+		  <script src = "savingToExcel.js" ></script>
+		  <script src = "savingProfitToExcel.js" ></script>
+		  <script src = "xlsx.core.min.js" ></script>
+		  <script src = "chart.zoom.js" ></script>
+		  <script src = "hammer.js" ></script>
+		  <script src = "getColors.js" ></script>
+		
+	</head>
+    <body>
+	<img id="myImage" src="ANSWERicon.png" style="float:left;margin-top:6px">
+		<h1 style="color:gray;font-family:'PT Sans',Tahoma;" id="header">ANSWER application</h1>
+		
+	<div id="modelSection" style="width:85vp;height:50vp;float:left;">
+	
+		<div id="areaA" style="width:350px;height:370px;"></div>
+		<div id="areaB" style="width:300px;height:370px;"></div>
+		<div id="yieldChart" style="width:850px;height:450px;">
+			<div id="areaC" style="width:180px;height:370px;float:left;"></div>
+			<div id="chartjsChartYield" style="width:485px;height:400px;float:left;margin-top:20px;">
+				<canvas id="myChart" width="485" height="400"></canvas>
+			</div>
+		</div>
+		
+	</div>	
+		<style>
+			#areaA, #areaB, #yieldChart {
+				margin: 2px 20px;
+				width:320px;
+				height:400px;
+				float: left;
+			}
+			.webix_layout_space{
+				background-color: #fff;
+			}
+        </style>
+	</div>
+	
+	<div id="economicSection" style="float:left;width:70vp;height:900px;">
+		<hr width="680" size="4" color="lightgray" style="z-index:5; margin-left:25px;margin-top:20px">
+		<div id="areaD"style="width:340px;height:370px;float:left;margin:10px 20px;margin-right:10px; position:static"></div>
+		<div id="areaE"style="width:335px;height:370px;float:left;margin:10px 5px;"></div>
+		<div id="profitChart" style="width:850px;height:450px;float:left;">
+			<div id="areaF" style="width:180px;height:370px;float:left;margin-left:20px;"></div>
+			<div id="chartjsChartProfit" style="width:485px;height:400px;float:left;margin-top:20px;">
+				<canvas id="myChartProfit" width="485" height="400"></canvas>
+			</div>
+		</div>
+		<div id="helpMe" style="width:180px;height:100px;margin-left:30px;">
+			<form action="helpMe.html">
+				<input type="button" 
+				style="background-color:#2489cc;font-size:15px;height:35px;width:150px;color:#fff;border-radius:6px;font-family:'PT Sans';border:none"
+				onclick="window.open('helpMe.html','popUpWindow','height=400,width=900,left=10,top=10,,scrollbars=yes,menubar=no'); return false;" value="Help me!" />
+			</form>
+		</div>
+		
+		<style>
+			.myBold {
+				font-weight: bold;
+			}
+		</style>
+	</section>        
+		
+		<script type="text/javascript" charset="utf-8">
+		webix.codebase = "./";
+		
+		webix.ui({
+			    container: "areaA",
+			    type:"space", padding:8,
+				view:"fieldset", label:"Crop & Soil", body:{
+                rows:[
+                    {
+                        type:"clean",
+                        rows:[
+
+                            {
+                                borderless:true, view:"tabbar", id:'tabbar', value: 'cropSoilList', multiview:true, 
+								options: [
+                                    { value: 'Crop & Soil type', id: 'cropSoilList'},
+                                    { value: 'Model parameters', id: 'answerParameters'}
+                                ]
+                            },
+                            {
+                                cells:[
+                                    {
+										id:"cropSoilList",
+                                        view:"form", height: 287,
+										rows:[
+										{view:"combo", width: 325,padding:20,
+										id: "croplist",
+										label: 'Crop type:',  
+										name:"crop", 
+										value:12,
+										options:{
+											body:{
+												template:"#cropName#",
+												data: cropsDataSet}
+												}
+										},
+										{view:"combo", width: 325,padding:20,
+										id: "soillist",
+										label: 'Soil type:',  
+										name:"soil", 
+										value:2,
+										options:{
+											body:{
+												template:"#soilName#",
+												data: soilsDataSet}
+												}
+										}]
+										},
+                                    {
+                                        id:"answerParameters",
+										view:"form",width:359,
+										cols:[
+										{view:"fieldset", label:"Crop parameters", body:{
+													rows:[{view:"text", label:"Tp", value:6, id:"Tp", tooltip:"Potential (evapo)transpiration [mm/day]"},
+											  {view:"text", label:"EC50", value:5.5, id:"EC50", tooltip:"Soil saturated paste solution EC, causing 50% yield decrease [dS/m]"},
+											  {view:"text", label:"p", value:3, id:"p", tooltip:"Plant characteristic parameter for salinity response function (from van Genuchten) usually will be 3"},
+											  {view:"text", label:"Psi Root", value:6000, id: "PsiRoot", tooltip:"Minimum possible water head at root soil interface [mm] (enter as positive number)"},
+											  {view:"text", label:"b", value:10, id:"b", tooltip:"Effective distance for flow between roots and soil (usally 10) [mm]"},
+											  {view:"text", label:"Yr0", value:"0", id:"Yr0", tooltip:"Correction term for time zero yield (before treatments)"}
+										]}
+										},
+										{view:"fieldset", label:"Soil parameters", body:{
+										rows:[{view:"text", label:"Ks", value:3600, id:"Ks", tooltip:"Saturated hydraulic conductivity [mm/day]"},
+											  {view:"text", label:"Beta", value:0.55, id:"Beta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
+											  {view:"text", label:"Eta", value: 2.7, id:"Eta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
+											  {view:"text", label:"Theta_s", value:0.41, id:"Theta_s", tooltip:"Saturated soil water content"},
+											  {view:"text", label:"Theta_r", value:0.06, id:"Theta_r", tooltip:"Residual soil water content"},
+											  {view:"text", label:"Psi water", value:200, id: "PsiWater", tooltip:"Air entry head [mm] (enter as positive number)"}
+										]}
+										}]
+										
+                                        
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+				}
+            }).show();
+		
+	webix.ui({
+			    container: "areaB",
+			    type:"space", padding:8,
+				view:"fieldset", label:"Parameters", body:{
+                rows:[
+					{template:" ", borderless:true, height:20},
+                    {view:"fieldset", label:"Series", body:{
+					rows:[{view:"label", label: "Water salinity (EC) [dS/m]:", css:"myBold"},
+						  {template:" ", borderless:true, height:12},
+						  {cols:[{view:"text", label:"min:" ,id: "minEC", value: 0.5},
+						  {view:"text", label:"max:", id: "maxEC", value: 6.5}]},
+						  {cols:[{view:"text", label:"step:", id: "stepEC", value: 1.5},
+						  {template:" ", borderless:true}]}]
+					}},
+					{template:" ", borderless:true, height:12},
+					{view:"fieldset", label:"x-axis", body:{
+					rows:[{view:"label", label: "Irrigation (I) [mm/day]:", css:"myBold"},
+						  {template:" ", borderless:true, height:12},
+						  {cols:[{view:"text", label:"min:", id: "minI", value: 0.5},
+						  {view:"text", label:"max:", id: "maxI", value: 8.0}]},
+						  {cols:[{view:"text", label:"step:", id: "stepI", value: 0.5},
+						  {template:" ", borderless:true}]}]
+					}}]
+					}
+				}).show();
+	
+	webix.ui({
+				container:"areaC",
+				type:"space", padding: 8,
+				id: "YieldChart",
+				editable:true,
+				view:"fieldset", label:"ANSWER model", body:{
+				cols:[{rows:[{view:"button", id:"calcYield", value:"Calculate Yield", width:150 
+								},
+							 {view:"button", id:"exoprtYieldtoExcel", value:"Export to Excel" 
+							 }]},
+				{template: "",
+					width:525,
+					height:400,
+					id:"fusionChartYield"
+				}]
+				}
+
+			}).show();
+webix.ui({
+		    container: "areaD",
+		    type:"space", padding:8,
+			view:"fieldset", label:"Water parameters", body:{
+        rows:[
+            {
+                type:"clean",
+					rows:[
+
+                    {
+                        borderless:true, view:"tabbar", id:'tabbarWater', value: 'waterType', multiview:true, 
+							options: [
+                            { value: 'Water type', id: 'waterType'},
+                            { value: 'Cost', id: 'waterCost'},
+								{ value: 'Quota cost', id: 'quotaCost' }
+                        ]
+                    },
+						{cells:[
+                            {
+									id:"waterType",
+                                view:"form", height: 287,
+									rows:[
+										{ view:"checkbox", id:"freshCheckbox", labelRight:"Fresh water", value:1},
+										{ view:"checkbox", id:"brackishCheckbox", labelRight:"Brackish water", value:0},
+										{ view:"checkbox", id:"quotaCheckbox", labelRight:"Include quota deviation", value:0},
+										{ view:"text", label:"Quota per dunam:" ,id: "quotaPerDunam", value: 620, inputWidth:270 , labelWidth:200, labelAlign:"right"}
+									]
+								},
+								{
+									id: "waterCost",
+									view:"form", height:287,align:"left",
+									rows:[
+										{view:"text", label:"Fresh Water:", id:"freshWaterPrice", value: 2.4, inputWidth:270, labelWidth:200, align:"left"},
+										{view:"label", label:"Brackish water, per salinity [dS]:"},
+										{
+											cols:[{
+												rows:[
+												{view:"text", label:"< 1.9", id:"s1_9", value: 2.15, inputWidth:135, labelWidth:70, align:"left"},
+												{view:"text", label:"1.9-2.65", id:"s1_9_2_65", value: 1.193, inputWidth:135, labelWidth:70, align:"left"},
+												{view:"text", label:"2.65-3.4", id:"s2_65_3_4", value: 1.114, inputWidth:135, labelWidth:70, align:"left"},
+												{view:"text", label:"3.4-4.1", id:"s3_4_4_1", value: 1.008, inputWidth:135, labelWidth:70, align:"left"}]},
+												{rows:[
+												{view:"text", label:"4.1-4.8", id:"s4_1_4_8", value: 0.928, inputWidth:135, labelWidth:70, align:"left"},
+												{view:"text", label:"4.8-5.2", id:"s4_8_5_2", value: 0.875, inputWidth:135, labelWidth:70, align:"left"},
+												{view:"text", label:"> 5.2", id:"s5_2", value: 0.796, inputWidth:135, labelWidth:70, align:"left"}
+												]}
+											]
+										}
+									]
+								},
+								{
+									id:"quotaCost",
+									view:"form", height:287,
+									rows:[
+										{view:"label",label:"Fresh Water:", css:"myBold"},
+										{view:"text", label:"Deviation up to 30%:", id:"devUpto30", value:2.688, inputWidth:250, labelWidth:180},
+										{view:"text", label:"Deviation above 30%:", id:"devAbove30", value:6.746, inputWidth:250, labelWidth:180},
+										{view:"label",label:"Brackish Water:", css:"myBold"},
+										{cols:[
+										{view:"text", label:"Deviation up to 8%:", id:"devUpto8", value:125, inputWidth:250, labelWidth:180},
+										{view:"label",label:"%", width:20}
+										]},
+										{cols:[
+										{view:"text", label:"Deviation above 8%:", id:"devAbove8", value:150, inputWidth:250, labelWidth:180},
+										{view:"label",label:"%", width:20}
+										]}
+									]
+								}
+								]
+						}
+						]
+				}
+			]}
+		});	
+
+	webix.ui({
+			    container: "areaE",
+			    type:"space", padding:0, height:287,
+				view:"fieldset", label:"Economic parameters", body:{
+                rows:[
+						{view:"label", label:"Economic parameters:", css:"myBold"},
+						{view:"text", label:"Dunam amount:", id: "dunamAmount", value: 50, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Revenue (per ton):", id: "revenuePerTon", value: 4833, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Return (per dunam):", id: "returnPerDunam", value: 7979, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Yield dependent costs (per ton):", id: "yieldCostsPerTon", value: 2080, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Fixed costs (per dunam):", id: "fixedCostsPerDunam", value: 19200, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Season length (months):", id: "seasonLength", value: 4, inputWidth:300, labelWidth:220, bottomPadding:14},
+					]
+					}
+				}).show();
+
+	webix.ui({
+				container:"areaF",
+				type:"space", padding: 8,
+				id: "ProfitChart",
+				editable:true,
+				view:"fieldset", label:"Calculate profit", body:{
+				cols:[{rows:[{view:"button", id:"calcProfit", value:"Calculate Profit", width:150 
+								},
+							 {view:"button", id:"exoprtProfittoExcel", value:"Export to Excel" 
+							 }]},
+				{template: "",
+					width:525,
+					height:400,
+					id:"fusionChartProfit"
+				}]
+				}
+
+			}).show();				
+
+// bind fresh water checkbox ad brackish water checkbox:
+	$$("freshCheckbox").attachEvent("onChange", function(){
+		if ($$("freshCheckbox").getValue()==0){
+			$$("brackishCheckbox").setValue(1);
+		}
+		if ($$("freshCheckbox").getValue()==1){
+			$$("brackishCheckbox").setValue(0);
+		}
+	});
+	$$("brackishCheckbox").attachEvent("onChange", function(){
+		if ($$("brackishCheckbox").getValue()==0){
+			$$("freshCheckbox").setValue(1);
+		}
+		if ($$("brackishCheckbox").getValue()==1){
+			$$("freshCheckbox").setValue(0);
+		}
+	});
+
+var yi100=12.5;	//default crop - corn (?)	
+// bind crop and soil choice of user to parameter values:
+	$$("croplist").attachEvent("onChange", function(id){
+		$$("Tp").setValue(cropsDataSet[(id-1)].Tp)
+		$$("EC50").setValue(cropsDataSet[(id-1)].EC50)
+		$$("p").setValue(cropsDataSet[(id-1)].p)
+		$$("b").setValue(cropsDataSet[(id-1)].b)
+		$$("PsiRoot").setValue(cropsDataSet[(id-1)].PsiRoot)
+		$$("Yr0").setValue(cropsDataSet[(id-1)].Yr0)
+		$$("maxI").setValue(2*Number($$("Tp").getValue()))
+		$$("revenuePerTon").setValue(cropsDataSet[(id-1)].Rev)
+		$$("returnPerDunam").setValue(cropsDataSet[(id-1)].Ret)
+		$$("yieldCostsPerTon").setValue(cropsDataSet[(id-1)].YDP)
+		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed)
+		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
+		yi100 = cropsDataSet[(id-1)].y100
+		});
+	$$("soillist").attachEvent("onChange", function(id){
+		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
+		$$("Beta").setValue(soilsDataSet[(id-1)].Beta)
+		$$("Eta").setValue(soilsDataSet[(id-1)].Eta)
+		$$("Theta_r").setValue(soilsDataSet[(id-1)].Theta_r)
+		$$("Theta_s").setValue(soilsDataSet[(id-1)].Theta_s)
+		$$("PsiWater").setValue(soilsDataSet[(id-1)].PsiWater)
+		});
+		
+// limit Imin to 0.5:
+	$$("minI").attachEvent("onChange", function(){
+		var minIchangedValue = Number($$("minI").getValue());
+		if (minIchangedValue<0.5){
+			$$("minI").setValue(0.5);
+		}
+	});	
+	
+	function calculatingANSWER(ecArray){
+	
+		V0 = Number($$("Theta_r").getValue());
+		V1 = Number($$("Theta_s").getValue());
+		V2 = Number($$("Beta").getValue());
+		V3 = Number($$("Eta").getValue());
+		V4 = Number($$("PsiWater").getValue());
+		V5 = Number($$("Ks").getValue());
+		V6 = V3/V2; //Delta
+		V7 = Number($$("Tp").getValue());
+		V8 = Number($$("EC50").getValue());
+		V9 = Number($$("p").getValue());
+		V10 = Number($$("b").getValue());
+		V11 = Number($$("PsiRoot").getValue());
+		V12 = Number($$("Yr0").getValue());
+		ecMin = Number($$("minEC").getValue());
+		ecMax = Number($$("maxEC").getValue());
+		ecStep = Number($$("stepEC").getValue());
+		iMin = Number($$("minI").getValue());
+		iMax = Number($$("maxI").getValue());
+		iStep = Number($$("stepI").getValue());	
+		V13 = ecArray; //3.5;	//EC
+		V14 = 3;	//I
+		var V = [V0,V1,V2,V3,V4,V5,V6,V7,V8,V9,V10,V11,V12,V13,V14];
+		
+
+		var dx = 0.001;
+		var irrArray = [];
+		var functYield = [];
+		var d = [];
+		var variables = V;
+		var irrArrayLength = Math.floor((iMax-iMin)/iStep);
+		for (j=0; j<irrArrayLength; j++){
+			functYield = [];
+			var x5 = null;
+			var x6 = null;
+			irrArray[j] = parseFloat(iMin)+j*parseFloat(iStep);
+			variables[14] = irrArray[j];
+			for (k=0; k<(10/dx); k++){
+				functYield[k] = calcT(k*dx,variables);
+				if (functYield[k]<0){
+					functYield[k] = -1*functYield[k];
+				}
+			}
+			
+			functYield = clear(functYield);
+			x5 = Math.min.apply(null, functYield);
+			x6 = functYield.indexOf(x5);
+			p1 = new BigNumber(V7);
+			p2 = new BigNumber(V12);
+			var corr = p2.minus(1).times(-1)
+			p3 = new BigNumber(x6);
+			p4 = new BigNumber(dx);
+			var prec = p3.times(p4)
+			prec = prec.dividedBy(p1).times(corr).plus(p2);
+			d[j] = prec.toNumber();
+		
+		}
+		
+		return [d, irrArray, irrArrayLength]
+	}
+   
+   function clear (arr){
+		var stripped = [];
+		for (i = 0, len = arr.length; i < len; i++){
+			if (arr[i])
+				stripped.push(arr[i]);
+		}
+		return stripped;
+		}
+				
+
+$$("calcYield").attachEvent("onItemClick", function(){
+	
+	webix.message("Calculating relative yield...");
+	
+	var lineChartData = {}; //declare an object
+	lineChartData.labels = []; //add 'labels' element to object (X axis)
+	lineChartData.datasets = []; //add 'datasets' array element to object
+
+	ecMin = Number($$("minEC").getValue());
+	ecMax = Number($$("maxEC").getValue());
+	ecStep = Number($$("stepEC").getValue());
+	var ecArray = [];
+	var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
+
+	for (line = 0; line < ecArrayLength; line++) {
+
+		ecArray[line] = parseFloat(ecMin)+line*parseFloat(ecStep);
+				
+		var d = []; irrArray = []; irrArrayLength = null;
+		[d[line], irrArray, irrArrayLength] = calculatingANSWER(ecArray[line])
+				
+		var currentEC = [];
+		currentEC = "EC="+ecArray[line];
+
+		y = [];
+		lineChartData.datasets.push({}); //new line dataset
+		dataset = lineChartData.datasets[line]
+		dataset.fillColor = getColors(line);
+		dataset.strokeColor = 'black';
+		dataset.backgroundColor = getColors(line);
+		dataset.fill = false;
+		dataset.data = []; 
+		dataset.label = currentEC;
+
+		for (x = 0; x < irrArrayLength; x++) {
+			y.push(d[line][x]); //generate separate data lines
+			if (line === 0)
+				lineChartData.labels.push(irrArray[x].toFixed(1)); 
+			} 
+
+		lineChartData.datasets[line].data = y; //send new line data to dataset
+	} 
+	
+	document.getElementById("chartjsChartYield").innerHTML = '&nbsp;';
+	document.getElementById("chartjsChartYield").innerHTML = '<canvas id="myChart" width="485" height="400"></canvas>';
+	var ctx = document.getElementById("myChart").getContext("2d");
+	
+	if (myNewChart != null){
+		myNewChart.removeData();
+		//console.log("destoying")
+	}
+	var myNewChart = new Chart(ctx, {
+		type: 'line',
+		data: lineChartData,
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Relative Yield'
+						}
+				}],
+				xAxes: [{
+					ticks:{
+						maxRotation:25,
+						padding:100,
+						maxTicksLimit:20
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Irrigation [mm/day]'
+						}
+				}]
+			},
+			legend:{
+				position:'bottom'
+			},
+			zoom:{
+				enabled: true,
+				mode: 'xy'
+			},
+			pan:{
+				enabled: true,
+				mode: 'xy'
+			}
+		}
+	});
+	myNewChart.update();
+
+	
+});
+
+function yr_EC_I(){
+		ecMin = $$("minEC").getValue();
+		ecMax = $$("maxEC").getValue();
+		ecStep = $$("stepEC").getValue();
+		var ecArray = [];
+		var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
+		var dataVectors = [];
+		
+		for (g=0; g<ecArrayLength; g++){
+			
+			ecArray[g] = parseFloat(ecMin)+g*parseFloat(ecStep);
+			
+			var d = []; irrArray = []; irrArrayLength = null;
+			[d[g], irrArray, irrArrayLength] = calculatingANSWER(ecArray[g])
+			
+			var currentEC = [];
+			currentEC = "EC="+ecArray[g];
+
+			var dataYield = null;
+			dataYield = [];
+
+			dataYield+=d[g];
+			dataVectors[g] = dataYield;
+
+		}
+	return dataVectors;
+}
+
+$$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
+	
+	ecMin = Number($$("minEC").getValue());
+	ecStep = Number($$("stepEC").getValue());
+	
+	iMin = Number($$("minI").getValue());
+	iMax = Number($$("maxI").getValue());
+	iStep = Number($$("stepI").getValue());	
+	var iArray = [];
+	var irrArrayLength = Math.floor((iMax-iMin)/iStep);
+	
+	iArray[0] = "EC/I";
+	for (j=1; j<(irrArrayLength+1); j++){
+	iArray[j] = iMin+j*iStep;
+	}
+	
+	var myArray = yr_EC_I();
+	
+	var result = [];	
+	result[1] = [];
+	for(row =0 ; row < myArray.length; row++){
+		var a = myArray[row].split(",")
+		var x = [];
+		x[0] = ecMin+row*ecStep;
+		for (i=0; i<a.length; i++){
+			x[i+1] = parseFloat(a[i])
+		}
+					
+		result[row+1] = x;
+	};
+	result[0] = iArray;
+	saveToExcel(result)
+});
+
+function calculateProfit(){
+	// EC (salinity) array:
+	ecMin = $$("minEC").getValue();
+	ecMax = $$("maxEC").getValue();
+	ecStep = $$("stepEC").getValue();
+	var ecArray = [];
+	var ecArrayLength = Math.floor((ecMax-ecMin)/ecStep);
+	for (g=0; g<ecArrayLength; g++){
+		ecArray[g] = parseFloat(ecMin)+g*parseFloat(ecStep);
+	}
+	
+	// I (irrigation) array:
+	iMin = Number($$("minI").getValue());
+	iMax = Number($$("maxI").getValue());
+	iStep = Number($$("stepI").getValue());	
+	var iArray = [];
+	var irrArrayLength = Math.floor((iMax-iMin)/iStep);
+	for (j=0; j<(irrArrayLength); j++){
+		iArray[j] = iMin+j*iStep;
+	}
+	
+	var sal = [];
+	
+	// Sal array - price per salinity, in case 'brackish' was checked:
+	if ($$("brackishCheckbox").getValue()==1){
+		S1_9 = Number($$("s1_9").getValue())
+		S1_9_2_65 = Number($$("s1_9_2_65").getValue())
+		S2_65_3_4 = Number($$("s2_65_3_4").getValue())
+		S3_4_4_1 = Number($$("s3_4_4_1").getValue())
+		S4_1_4_8 = Number($$("s4_1_4_8").getValue())
+		S4_8_5_2 = Number($$("s4_8_5_2").getValue())
+		S5_2 = Number($$("s5_2").getValue())
+		
+		for(i=0; i<ecArrayLength; i++){
+			if(ecArray[i]<1.9){
+				sal[i]=S1_9;
+			}
+			else if (ecArray[i]>=1.9 && ecArray[i]<2.65){
+				sal[i]=S1_9_2_65;
+			}
+			else if (ecArray[i]>=2.65 && ecArray[i]<3.4){
+				sal[i]=S2_65_3_4;
+			}
+			else if (ecArray[i]>=3.4 && ecArray[i]<4.1){
+				sal[i]=S3_4_4_1;
+			}
+			else if (ecArray[i]>=4.1 && ecArray[i]<4.8){
+				sal[i]=S4_1_4_8;
+			}
+			else if (ecArray[i]>=4.8 && ecArray[i]<5.2){
+				sal[i]=S4_8_5_2;
+			}
+			else if (ecArray[i]>=5.2){
+				sal[i]=S5_2;
+			}
+		}
+	}
+	// Sal array - price per salinity, in case 'fresh' was checked:
+	if ($$("freshCheckbox").getValue()==1){
+		Sfresh = Number($$("freshWaterPrice").getValue());
+		for (i=0; i<ecArrayLength; i++){
+			sal[i]=Sfresh;
+		}
+	}
+	
+	// Economic parameters, as specified by user:
+	Dun = Number($$("dunamAmount").getValue())
+	Revenue = Number($$("revenuePerTon").getValue())
+	ReturnPerD = Number($$("returnPerDunam").getValue())
+	YieldCostsPerTon = Number($$("yieldCostsPerTon").getValue())
+	FixedPerD = Number($$("fixedCostsPerDunam").getValue())
+	SeasonLength = Number($$("seasonLength").getValue())
+	YieldCorrFactor = yi100; 	// correlation factor for relative yield - to yield per ton/dunam (?)
+	
+	var days = SeasonLength*30 //number of days in seasonLength
+	var waterAmount = [];
+	var waterPrice = [];
+
+	// not including quota deviation:
+	if ($$("quotaCheckbox").getValue()==0){
+		waterAmount = iArray.map(function(x) {return x*days;});
+		for(c=0; c<ecArrayLength; c++){
+			waterPrice[c] = [];
+			for(t=0; t<irrArrayLength; t++){
+				waterPrice[c][t] = waterAmount[t]*sal[c];
+			}
+		}	
+	}
+	
+	// including quota deviation:
+	var priceA = [];
+	var priceB = [];
+	var priceA_perSal = [];
+	var priceB_perSal = [];
+	var precentage = [];
+	var waterAmount = [];
+	var quo = Number($$("quotaPerDunam").getValue());
+	if ($$("quotaCheckbox").getValue()==1){
+	
+		waterAmount = iArray.map(function(x) {return x*days;});
+	
+		// in case of fresh water:
+		if($$("freshCheckbox").getValue()==1){
+			priceA = Number($$("devUpto30").getValue());
+			priceB = Number($$("devAbove30").getValue());
+			precentage = 30/100;
+			priceA_perSal = sal.map(function(x) {return priceA;});
+			priceB_perSal = sal.map(function(x) {return priceB;});
+		}
+		
+		// in case of brackish water:
+		if($$("brackishCheckbox").getValue()==1){
+			priceA = Number($$("devUpto8").getValue());
+			priceB = Number($$("devAbove8").getValue());
+			precentage = 8/100;
+			priceA_perSal = sal.map(function(x) {return x*priceA/100;});
+			priceB_perSal = sal.map(function(x) {return x*priceB/100;});
+		}
+
+		for (l=0; l<ecArrayLength; l++){
+			waterPrice[l] = [];
+			for (z=0; z<irrArrayLength; z++){
+				var res = [];
+				if (waterAmount[z]>quo){
+					res = waterAmount[z]-quo;
+					if (res<=precentage*quo){
+						waterPrice[l][z] = quo*sal[l] + res*priceA_perSal[l];
+					}else if (res>precentage*quo){
+						waterPrice[l][z] = quo*sal[l] + precentage*quo*priceA_perSal[l] + (res-(precentage*quo))*priceB_perSal[l]
+					}
+				} else {
+					waterPrice[l][z] = waterAmount[z]*sal[l];
+				}
+			}
+		}
+	}
+	
+	// relative yield
+	var rYdata = [];
+	var rYdata_raw = [];
+	rYdata_raw = yr_EC_I();
+	for(row =0 ; row < rYdata_raw.length; row++){
+		var a = rYdata_raw[row].split(",")
+		var x = [];
+		for (i=0; i<a.length; i++){
+			x[i] = parseFloat(a[i])
+		}
+					
+		rYdata[row] = x;
+	};
+
+	// calculate profit per EC (salinity):
+	var prof = [];
+	prof[0] = [];
+	var M = YieldCostsPerTon*YieldCorrFactor;
+	var N = Revenue*YieldCorrFactor;
+	for (k=0; k<ecArrayLength; k++){
+		var yieldcosts = [];
+		var revenue = [];
+		var prof_n = [];
+		for(n=0; n<irrArrayLength; n++){
+			yieldcosts[n] = M*rYdata[k][n];
+			revenue[n] = N*rYdata[k][n];
+			prof_n[n] = revenue[n]-yieldcosts[n]-FixedPerD-ReturnPerD-waterPrice[k][n];
+		}
+		prof[k] = prof_n.map(function(x) {return x*Dun;});
+	}
+	return [prof, ecArray, iArray]
+}
+
+$$("calcProfit").attachEvent("onItemClick", function(){
+
+	webix.message("Calculating profit...");
+	
+	[prof, ecArray, iArray] = calculateProfit();
+	
+	var lineChartData = {}; //declare an object
+	lineChartData.labels = []; //add 'labels' element to object (X axis)
+	lineChartData.datasets = []; //add 'datasets' array element to object
+
+	var ecArrayLength = ecArray.length;
+
+	for (line = 0; line < ecArrayLength; line++) {
+
+		ecArray[line] = parseFloat(ecMin)+line*parseFloat(ecStep);
+				
+		var currentEC = [];
+		currentEC = "EC="+ecArray[line];
+
+		y = [];
+		lineChartData.datasets.push({}); //new line dataset
+		dataset = lineChartData.datasets[line]
+		dataset.fillColor = getColors(line);
+		dataset.strokeColor = 'black';
+		dataset.backgroundColor = getColors(line);
+		dataset.fill = false;
+		dataset.data = []; 
+		dataset.label = currentEC;
+
+		for (x = 0; x < irrArrayLength; x++) {
+			y.push(prof[line][x]); //generate separate data lines
+			if (line === 0)
+				lineChartData.labels.push(iArray[x].toFixed(1)); 
+			} 
+
+		lineChartData.datasets[line].data = y; //send new line data to dataset
+	} 
+	
+	document.getElementById("chartjsChartProfit").innerHTML = '&nbsp;';
+	document.getElementById("chartjsChartProfit").innerHTML = '<canvas id="myChartProfit" width="485" height="400"></canvas>';
+	var ctx = document.getElementById("myChartProfit").getContext("2d");
+	
+	var myNewProfitChart = new Chart(ctx, {
+		type: 'line',
+		data: lineChartData,
+		options: {
+			scales: {
+				yAxes: [{
+					ticks: {
+						beginAtZero:true
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Profit [NIS]'
+						}
+				}],
+				xAxes: [{
+					ticks:{
+						maxRotation:25,
+						padding:100,
+						maxTicksLimit:20
+					},
+					scaleLabel: {
+						display: true,
+						labelString: 'Irrigation [mm/day]'
+						}
+				}]
+			},
+			legend:{
+				position:'bottom'
+			},
+			zoom:{
+				enabled: true,
+				mode: 'xy'
+			},
+			pan:{
+				enabled: true,
+				mode: 'xy'
+			}
+		}
+	});
+	myNewProfitChart.update();
+});
+
+$$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
+	
+	[prof, ecArray, iArray] = calculateProfit();
+
+	var myProfitArray = prof;
+	var iArray_new = []
+	iArray_new[0] = 0;
+	iArray_new.push(...iArray);
+	
+	var result = [];	
+	result[1] = [];
+	for(row =0 ; row < myProfitArray.length; row++){
+		var x = [];
+		x[0] = ecMin+row*ecStep;
+		var array = [];
+		array = myProfitArray[row].map(function(value, index) {
+			return value;
+			});
+		for (h=0; h<iArray.length; h++){
+			x[h+1] = array[h]
+		}			
+		result[row+1] = x;
+	};
+	result[0] = iArray_new;
+	result[0][0] = "EC/I"
+
+	saveProfitToExcel(result)
+});
+	
+		</script>
+    </body> 
+</html>
+		
+		
+		
+		
