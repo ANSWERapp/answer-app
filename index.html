@@ -14,6 +14,7 @@
 		  <script src = "xlsx.core.min.js" ></script>
 		  <script src = "chart.zoom.js" ></script>
 		  <script src = "hammer.js" ></script>
+		  <script src = "getColors.js" ></script>
 		
 	</head>
     <body>
@@ -428,17 +429,6 @@ var yi100=12.5;	//default crop - corn (?)
 		return stripped;
 		}
 				
-	// setting random colors to chart series
-	function getRandomColor() {
-    var letters = '0123456789ABCDEF'.split('');
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-
-
 
 $$("calcYield").attachEvent("onItemClick", function(){
 	
@@ -467,9 +457,9 @@ $$("calcYield").attachEvent("onItemClick", function(){
 		y = [];
 		lineChartData.datasets.push({}); //new line dataset
 		dataset = lineChartData.datasets[line]
-		dataset.fillColor = getRandomColor();
+		dataset.fillColor = getColors(line);
 		dataset.strokeColor = 'black';
-		dataset.backgroundColor = getRandomColor();
+		dataset.backgroundColor = getColors(line);
 		dataset.fill = false;
 		dataset.data = []; 
 		dataset.label = currentEC;
@@ -789,9 +779,9 @@ $$("calcProfit").attachEvent("onItemClick", function(){
 		y = [];
 		lineChartData.datasets.push({}); //new line dataset
 		dataset = lineChartData.datasets[line]
-		dataset.fillColor = getRandomColor();
+		dataset.fillColor = getColors(line);
 		dataset.strokeColor = 'black';
-		dataset.backgroundColor = getRandomColor();
+		dataset.backgroundColor = getColors(line);
 		dataset.fill = false;
 		dataset.data = []; 
 		dataset.label = currentEC;
