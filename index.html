@@ -98,7 +98,7 @@
 										id: "croplist",
 										label: 'Crop type:',  
 										name:"crop", 
-										value:3,
+										value:12,
 										options:{
 											body:{
 												template:"#cropName#",
@@ -109,7 +109,7 @@
 										id: "soillist",
 										label: 'Soil type:',  
 										name:"soil", 
-										value:1,
+										value:2,
 										options:{
 											body:{
 												template:"#soilName#",
@@ -122,8 +122,8 @@
 										view:"form",width:359,
 										cols:[
 										{view:"fieldset", label:"Crop parameters", body:{
-													rows:[{view:"text", label:"Tp", value:4, id:"Tp", tooltip:"Potential (evapo)transpiration [mm/day]"},
-											  {view:"text", label:"EC50", value:5, id:"EC50", tooltip:"Soil saturated paste solution EC, causing 50% yield decrease [dS/m]"},
+													rows:[{view:"text", label:"Tp", value:6, id:"Tp", tooltip:"Potential (evapo)transpiration [mm/day]"},
+											  {view:"text", label:"EC50", value:5.5, id:"EC50", tooltip:"Soil saturated paste solution EC, causing 50% yield decrease [dS/m]"},
 											  {view:"text", label:"p", value:3, id:"p", tooltip:"Plant characteristic parameter for salinity response function (from van Genuchten) usually will be 3"},
 											  {view:"text", label:"Psi Root", value:6000, id: "PsiRoot", tooltip:"Minimum possible water head at root soil interface [mm] (enter as positive number)"},
 											  {view:"text", label:"b", value:10, id:"b", tooltip:"Effective distance for flow between roots and soil (usally 10) [mm]"},
@@ -131,12 +131,12 @@
 										]}
 										},
 										{view:"fieldset", label:"Soil parameters", body:{
-										rows:[{view:"text", label:"Ks", value:225, id:"Ks", tooltip:"Saturated hydraulic conductivity [mm/day]"},
-											  {view:"text", label:"Beta", value:0.15, id:"Beta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
-											  {view:"text", label:"Eta", value: 2.2, id:"Eta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
-											  {view:"text", label:"Theta_s", value:0.6, id:"Theta_s", tooltip:"Saturated soil water content"},
-											  {view:"text", label:"Theta_r", value:0.1, id:"Theta_r", tooltip:"Residual soil water content"},
-											  {view:"text", label:"Psi water", value:300, id: "PsiWater", tooltip:"Air entry head [mm] (enter as positive number)"}
+										rows:[{view:"text", label:"Ks", value:3600, id:"Ks", tooltip:"Saturated hydraulic conductivity [mm/day]"},
+											  {view:"text", label:"Beta", value:0.55, id:"Beta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
+											  {view:"text", label:"Eta", value: 2.7, id:"Eta", tooltip:"Brooks-Corey soil parameter, delta = eta/beta"},
+											  {view:"text", label:"Theta_s", value:0.41, id:"Theta_s", tooltip:"Saturated soil water content"},
+											  {view:"text", label:"Theta_r", value:0.06, id:"Theta_r", tooltip:"Residual soil water content"},
+											  {view:"text", label:"Psi water", value:200, id: "PsiWater", tooltip:"Air entry head [mm] (enter as positive number)"}
 										]}
 										}]
 										
@@ -161,14 +161,14 @@
 						  {template:" ", borderless:true, height:12},
 						  {cols:[{view:"text", label:"min:" ,id: "minEC", value: 0.5},
 						  {view:"text", label:"max:", id: "maxEC", value: 6.5}]},
-						  {cols:[{view:"text", label:"step:", id: "stepEC", value: 0.5},
+						  {cols:[{view:"text", label:"step:", id: "stepEC", value: 1.5},
 						  {template:" ", borderless:true}]}]
 					}},
 					{template:" ", borderless:true, height:12},
 					{view:"fieldset", label:"x-axis", body:{
 					rows:[{view:"label", label: "Irrigation (I) [mm/day]:", css:"myBold"},
 						  {template:" ", borderless:true, height:12},
-						  {cols:[{view:"text", label:"min:", id: "minI", value: 0.7},
+						  {cols:[{view:"text", label:"min:", id: "minI", value: 0.5},
 						  {view:"text", label:"max:", id: "maxI", value: 8.0}]},
 						  {cols:[{view:"text", label:"step:", id: "stepI", value: 0.5},
 						  {template:" ", borderless:true}]}]
