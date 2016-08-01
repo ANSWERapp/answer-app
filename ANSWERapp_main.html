@@ -265,11 +265,13 @@ webix.ui({
 										]},
 										{view:"label",label:"Brackish Water:", css:"myBold"},
 										{cols:[
-										{view:"text", label:"Deviation up to 8%:", id:"devUpto8", value:125, inputWidth:250, labelWidth:180},
+										{view:"text", label:"Deviation up to", id:"brackishDev", value:8, width:170, labelWidth:115},
+										{view:"text", label:"%:", id:"devUpto8", value:125, inputWidth:90, labelWidth:40},
 										{view:"label",label:"%", width:20}
 										]},
 										{cols:[
-										{view:"text", label:"Deviation above 8%:", id:"devAbove8", value:150, inputWidth:250, labelWidth:180},
+										{view:"text", label:"Deviation up to", id:"brackishDevAbove", value:8, width:170, labelWidth:115},
+										{view:"text", label:"%:", id:"devAbove8", value:150, inputWidth:90, labelWidth:40},
 										{view:"label",label:"%", width:20}
 										]}
 									]
@@ -429,6 +431,12 @@ var yi100=30.8325/landUnit;	//default crop - tomato
 	});
 	$$("freshDevAbove").attachEvent("onChange", function(){
 		$$("freshDev").setValue($$("freshDevAbove").getValue());
+	});
+	$$("brackishDev").attachEvent("onChange", function(){
+		$$("brackishDevAbove").setValue($$("brackishDev").getValue());
+	});
+	$$("brackishDevAbove").attachEvent("onChange", function(){
+		$$("brackishDev").setValue($$("brackishDevAbove").getValue());
 	});
 	
 	function calculatingANSWER(ecArray){
@@ -774,7 +782,7 @@ function calculateProfit(){
 		if($$("brackishCheckbox").getValue()==1){
 			priceA = Number($$("devUpto8").getValue());
 			priceB = Number($$("devAbove8").getValue());
-			precentage = 8/100;
+			precentage = Number($$("brackishDev").getValue())/100;
 			priceA_perSal = sal.map(function(x) {return x*priceA/100;});
 			priceB_perSal = sal.map(function(x) {return x*priceB/100;});
 		}
