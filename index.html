@@ -96,7 +96,23 @@
 		$$("currencyRate").attachEvent("onChange", function(){
 			CurrencyRate = $$("currencyRate").getValue();
 			localStorage.unitCurrencyRate = CurrencyRate;
-		});						
+		});
+		
+		var money;
+		function showRate() {
+		    getRate('EUR','USD');
+		    console.log(money);
+		}
+		function getRate(from, to) {
+		    var script = document.createElement('script');
+		    script.setAttribute('src', "http://rate-exchange.appspot.com/currency?from="+from+"&to="+to+"&format=json&callback=sendRate");
+		    document.body.appendChild(script);
+		}
+		
+		function sendRate(data) {
+		    money = parseFloat(data.rate, 10);
+		}
+		showRate();
 		
 	</script>
 	
