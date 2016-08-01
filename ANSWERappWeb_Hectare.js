@@ -14,7 +14,8 @@ function changeLabelsHectare(){
 	$$("fixedCostsPerDunam").define("label", "Fixed (per hectare):");
 	$$("fixedCostsPerDunam").refresh();
 
-
+	$$("maxYieldLabel").define("label", "[ton/hectare]");
+	$$("maxYieldLabel").refresh();
 }
 	
 		
