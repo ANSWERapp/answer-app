@@ -400,7 +400,7 @@ var yi100=30.8325/landUnit;	//default crop - tomato
 		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed*currencyRate/landUnit)
 		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
 		$$("maxYield").setValue(cropsDataSet[(id-1)].y100/landUnit)
-		//yi100 = cropsDataSet[(id-1)].y100/landUnit
+		yi100 = cropsDataSet[(id-1)].y100/landUnit
 		});
 	$$("soillist").attachEvent("onChange", function(id){
 		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
