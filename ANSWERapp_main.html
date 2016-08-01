@@ -720,7 +720,7 @@ function calculateProfit(){
 	YieldCostsPerTon = Number($$("yieldCostsPerTon").getValue())
 	FixedPerD = Number($$("fixedCostsPerDunam").getValue())
 	SeasonLength = Number($$("seasonLength").getValue())
-	YieldCorrFactor = yi100; 	// correlation factor for relative yield - to yield per ton/dunam (?)
+	YieldCorrFactor = Number($$("maxYield").getValue()) 	// correlation factor for relative yield - to yield per ton/dunam (?)
 	
 	var days = SeasonLength*30 //number of days in seasonLength
 	var waterAmount = [];
