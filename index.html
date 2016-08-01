@@ -34,10 +34,10 @@
 		</div>
 		
 		<div id="gotoApp" style="width:200px;height:100px;margin-left:30px;">
-			<form action="ANSWERapp_NISdunam.html">
+			<form action="ANSWERapp_main.html">
 				<input type="button" 
 				style="background-color:#2489cc;font-size:15px;height:35px;width:195px;color:#fff;border-radius:6px;font-family:'PT Sans';border:none;margin-top:20px"
-				onclick="location.href='ANSWERapp_NISdunam.html'" value="Enter app" />
+				onclick="location.href='ANSWERapp_main.html'" value="Enter app" />
 			</form>
 		</div>
 		
@@ -75,7 +75,27 @@
 				{view:"text",id:"currencyRate",label:"Currency rate (1 NIS to USD):",value:0.26, labelWidth:200,inputWidth:270}
 				]
 				});
-							
+	
+		var UnitChoiceLand = $$("landUnit").getValue();
+		localStorage.unit = UnitChoiceLand;
+		$$("landUnit").attachEvent("onChange", function(){
+			UnitChoiceLand = $$("landUnit").getValue();
+			localStorage.unit = UnitChoiceLand;
+		});
+		
+		var UnitChoiceCurrency = $$("currencyUnit").getValue();
+		localStorage.unitCurrency = UnitChoiceCurrency;
+		$$("currencyUnit").attachEvent("onChange", function(){
+			UnitChoiceCurrency = $$("currencyUnit").getValue();
+			localStorage.unitCurrency = UnitChoiceCurrency;
+		});
+		
+		var CurrencyRate= $$("currencyRate").getValue();
+		localStorage.unitCurrencyRate = CurrencyRate;
+		$$("currencyRate").attachEvent("onChange", function(){
+			CurrencyRate = $$("currencyRate").getValue();
+			localStorage.unitCurrencyRate = CurrencyRate;
+		});						
 		
 	</script>
 		
