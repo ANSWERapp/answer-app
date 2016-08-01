@@ -16,6 +16,7 @@
 		  <script src = "chart.zoom.js" ></script>
 		  <script src = "hammer.js" ></script>
 		  <script src = "getColors.js" ></script>
+		  <script src = "ANSWERappWeb_Hectare.js" ></script>
 		
 	</head>
     <body>
@@ -307,6 +308,47 @@ webix.ui({
 
 			}).show();				
 
+// Dunam to hectare ratio:
+	var DtoH = 10/100;		// 1 dunam = 0.1 hectare
+	
+// NIS currency rate change (USD or other):
+	var Currency = localStorage.unitCurrency
+	var CurrenyRate = localStorage.unitCurrencyRate;
+	
+// Working units - land:
+	var LandUnit = localStorage.unit;
+	var landUnit = 1;
+	if (LandUnit==2){
+		changeLabelsHectare();
+		landUnit = DtoH;
+	}
+	$$("dunamAmount").setValue(Number($$("dunamAmount").getValue())*landUnit)
+	$$("returnPerDunam").setValue(Number($$("returnPerDunam").getValue())/landUnit)
+	$$("fixedCostsPerDunam").setValue(Number($$("fixedCostsPerDunam").getValue())/landUnit)
+	
+// Working units - currency:
+	var currencyRate = 1;
+	if (Currency!=1){
+		currencyRate = CurrenyRate;
+		console.log(currencyRate)
+	}
+	$$("revenuePerTon").setValue(Number($$("revenuePerTon").getValue())*currencyRate)
+	$$("returnPerDunam").setValue(Number($$("returnPerDunam").getValue())*currencyRate)
+	$$("yieldCostsPerTon").setValue(Number($$("yieldCostsPerTon").getValue())*currencyRate)
+	$$("fixedCostsPerDunam").setValue(Number($$("fixedCostsPerDunam").getValue())*currencyRate)
+	
+	$$("freshWaterPrice").setValue(Number($$("freshWaterPrice").getValue())*currencyRate)
+	$$("s1_9").setValue(Number($$("s1_9").getValue())*currencyRate)
+	$$("s1_9_2_65").setValue(Number($$("s1_9_2_65").getValue())*currencyRate)
+	$$("s2_65_3_4").setValue(Number($$("s2_65_3_4").getValue())*currencyRate)
+	$$("s3_4_4_1").setValue(Number($$("s3_4_4_1").getValue())*currencyRate)
+	$$("s4_1_4_8").setValue(Number($$("s4_1_4_8").getValue())*currencyRate)
+	$$("s4_8_5_2").setValue(Number($$("s4_8_5_2").getValue())*currencyRate)
+	$$("s5_2").setValue(Number($$("s5_2").getValue())*currencyRate)
+	
+	$$("devUpto30").setValue(Number($$("devUpto30").getValue())*currencyRate)
+	$$("devAbove30").setValue(Number($$("devAbove30").getValue())*currencyRate)
+
 // bind fresh water checkbox ad brackish water checkbox:
 	$$("freshCheckbox").attachEvent("onChange", function(){
 		if ($$("freshCheckbox").getValue()==0){
@@ -325,7 +367,7 @@ webix.ui({
 		}
 	});
 
-var yi100=30.8325;	//default crop - tomato	
+var yi100=30.8325/landUnit;	//default crop - tomato
 // bind crop and soil choice of user to parameter values:
 	$$("croplist").attachEvent("onChange", function(id){
 		$$("Tp").setValue(cropsDataSet[(id-1)].Tp)
@@ -335,12 +377,12 @@ var yi100=30.8325;	//default crop - tomato
 		$$("PsiRoot").setValue(cropsDataSet[(id-1)].PsiRoot)
 		$$("Yr0").setValue(cropsDataSet[(id-1)].Yr0)
 		$$("maxI").setValue(2*Number($$("Tp").getValue()))
-		$$("revenuePerTon").setValue(cropsDataSet[(id-1)].Rev)
-		$$("returnPerDunam").setValue(cropsDataSet[(id-1)].Ret)
-		$$("yieldCostsPerTon").setValue(cropsDataSet[(id-1)].YDP)
-		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed)
+		$$("revenuePerTon").setValue(cropsDataSet[(id-1)].Rev*currencyRate)
+		$$("returnPerDunam").setValue(cropsDataSet[(id-1)].Ret*currencyRate/landUnit)
+		$$("yieldCostsPerTon").setValue(cropsDataSet[(id-1)].YDP*currencyRate)
+		$$("fixedCostsPerDunam").setValue(cropsDataSet[(id-1)].Fixed*currencyRate/landUnit)
 		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
-		yi100 = cropsDataSet[(id-1)].y100
+		yi100 = cropsDataSet[(id-1)].y100/landUnit
 		});
 	$$("soillist").attachEvent("onChange", function(id){
 		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
@@ -800,6 +842,11 @@ $$("calcProfit").attachEvent("onItemClick", function(){
 	document.getElementById("chartjsChartProfit").innerHTML = '<canvas id="myChartProfit" width="485" height="400"></canvas>';
 	var ctx = document.getElementById("myChartProfit").getContext("2d");
 	
+	var labelStringProfit = "Profit [NIS]";
+	if (Currency!=1){
+		var labelStringProfit = "Profit [USD]";
+	}
+	
 	var myNewProfitChart = new Chart(ctx, {
 		type: 'line',
 		data: lineChartData,
@@ -811,7 +858,7 @@ $$("calcProfit").attachEvent("onItemClick", function(){
 					},
 					scaleLabel: {
 						display: true,
-						labelString: 'Profit [NIS]'
+						labelString: labelStringProfit
 						}
 				}],
 				xAxes: [{
