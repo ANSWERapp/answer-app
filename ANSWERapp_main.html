@@ -257,8 +257,12 @@ webix.ui({
 									view:"form", height:287,
 									rows:[
 										{view:"label",label:"Fresh Water:", css:"myBold"},
-										{view:"text", label:"Deviation up to 30%:", id:"devUpto30", value:2.688, inputWidth:250, labelWidth:180},
-										{view:"text", label:"Deviation above 30%:", id:"devAbove30", value:6.746, inputWidth:250, labelWidth:180},
+										{cols:[{view:"text", label:"Deviation up to", id:"freshDev", value:30, width:170, labelWidth:115,lsbelAlign:"right"},
+										{view:"text", label:"%:", id:"devUpto30", value:2.688, width:117, labelWidth:40} ]},
+										{cols:[
+										{view:"text", label:"Deviation above", id:"freshDevAbove", value:30, inputWidth:170, labelWidth:115,lsbelAlign:"right"},
+										{view:"text", label:"%:", id:"devAbove30", value:6.746, width:117, labelWidth:40}
+										]},
 										{view:"label",label:"Brackish Water:", css:"myBold"},
 										{cols:[
 										{view:"text", label:"Deviation up to 8%:", id:"devUpto8", value:125, inputWidth:250, labelWidth:180},
@@ -417,7 +421,15 @@ var yi100=30.8325/landUnit;	//default crop - tomato
 		if (minIchangedValue<0.5){
 			$$("minI").setValue(0.5);
 		}
-	});	
+	});
+	
+// bind quota deviation precentages (upto and above):
+	$$("freshDev").attachEvent("onChange", function(){
+		$$("freshDevAbove").setValue($$("freshDev").getValue());
+	});
+	$$("freshDevAbove").attachEvent("onChange", function(){
+		$$("freshDev").setValue($$("freshDevAbove").getValue());
+	});
 	
 	function calculatingANSWER(ecArray){
 	
@@ -753,7 +765,7 @@ function calculateProfit(){
 		if($$("freshCheckbox").getValue()==1){
 			priceA = Number($$("devUpto30").getValue());
 			priceB = Number($$("devAbove30").getValue());
-			precentage = 30/100;
+			precentage = Number($$("freshDev").getValue())/100;
 			priceA_perSal = sal.map(function(x) {return priceA;});
 			priceB_perSal = sal.map(function(x) {return priceB;});
 		}
