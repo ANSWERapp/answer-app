@@ -105,15 +105,18 @@
 
 		$.getJSON(exchangeRateURL, function(data) {
 		  money = data.query.results.rate.Rate;
-		  console.log(money)
-		  console.log(typeof money)
 		});  
 		
 		if (money){
+			console.log(money)
+		  	console.log(typeof money)
+		  	console.log(Number(money))
+		  	console.log(typeof Number(money))
+		  	console.log($$("currencyRate").getValue())
 			$$("currencyRate").setValue(Number(money));
 			localStorage.unitCurrencyRate = CurrencyRate;
 		}
-		console.log(2)
+		console.log(3)
 		
 	</script>
 	
