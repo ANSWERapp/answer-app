@@ -108,9 +108,10 @@
 		});  
 		
 		if (money){
-			$$("currencyRate").setValue(money);
+			$$("currencyRate").setValue(Number(money));
 			localStorage.unitCurrencyRate = CurrencyRate;
 		}
+		console.log(1)
 		
 	</script>
 	
