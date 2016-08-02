@@ -99,28 +99,18 @@
 			localStorage.unitCurrencyRate = CurrencyRate;
 		});
 		
-		var money;
-		function showRate() {
-		    getRate('EUR','USD');
-		    console.log(money);
-		}
-		function getRate(from, to) {
-		    var script = document.createElement('script');
-		    script.setAttribute('src', "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json&callback=sendRate");
-		    document.body.appendChild(script);
-		}
-		
-		function sendRate(data) {
-		    money = parseFloat(data.rate, 10);
-		}
-		showRate();
-		console.log(3)
+		var money = [];
 		
 		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
 
 		$.getJSON(exchangeRateURL, function(data) {
-		  console.log(data.query.results.rate.Rate);
+		  money = data.query.results.rate.Rate;
 		});  
+		
+		if (money){
+			$$("currencyRate").setValue(money);
+			localStorage.unitCurrencyRate = CurrencyRate;
+		}
 		
 	</script>
 	
