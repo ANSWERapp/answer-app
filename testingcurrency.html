@@ -1,1 +1,126 @@
-dfg
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="webix.css" type="text/css" charset="utf-8">
+        <script src="webix.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	</head>	
+    <body>
+		<div style="height:200px;background-color:forestgreen;">
+			<div style="height:100px;"></div>
+			<div id="headerSpot" style="float:bottom;">
+				<img id="myImage" src="ANSWERiconNegative.png" style="float:left;">
+				<h1 
+					style="color:white;font-family:'PT Sans',Tahoma;font-size:48px;background-color:forestgreen;height:50px;" 
+					id="header">ANSWER application
+				</h1>
+			</div>	
+		</div>
+		
+		<div id="welcome" style="font-family:'PT Sans',Tahoma;margin-left:20px;line-height:30px;width:820px">
+			<h2>welcome.</h2>
+			<p>
+				This application has been designed to calculate the <b>An</b>alytical <b>S</b>alt-<b>W</b>ater (ANSWER) model
+				[<a target="_blank" href="http://onlinelibrary.wiley.com/doi/10.1029/2006WR005313/full">Shani et al., 2007, 2009</a>].
+				By choosing a crop and soil type, the application will calculate the relative yield for any combination of irrigation 
+				water salinity and amount. Adding the relevant economic parameters (such as water price, different costs, etc.) 
+				the application can also calculate the expected profit.
+				<br/> Default values are relevant for current pricing in Israel.					</p>		
+		</div>
+	
+		<div id="unitChoice" style="font-family:'PT Sans',Tahoma;margin-left:20px;line-height:30px;">
+			<p>
+				<b>Please choose units</b>:
+			</p>
+		</div>
+		
+		<div id="gotoApp" style="width:200px;height:100px;margin-left:30px;">
+			<form action="ANSWERapp_main.html">
+				<input type="button" 
+				style="background-color:#2489cc;font-size:15px;height:35px;width:195px;color:#fff;border-radius:6px;font-family:'PT Sans';border:none;margin-top:20px"
+				onclick="location.href='ANSWERapp_main.html'" value="Enter app" />
+			</form>
+		</div>
+		
+		<div id="contactUs" 
+			style="font-family:'PT Sans',Tahoma;margin-left:20px;line-height:30px;height:20px;margin-top:50px">
+			<p>
+				Contact us at: &nbsp;&nbsp;&nbsp; answerappcomments@gmail.com
+			</p>
+		</div>
+		
+		<div id="commentsSection" 
+			style="font-family:'PT Sans',Tahoma;margin-left:20px;line-height:30px;height:400px;width:700px">
+			<p>
+				<b>Comments</b>:
+			</p>
+			<div id="disqus_thread"></div>
+		</div>
+		
+		
+	<script type="text/javascript" charset="utf-8">
+	
+		webix.ui({
+			    container: "unitChoice",
+			    type:"form", padding:8,
+				borderless:true,
+				rows:[{
+                cols:[{view:"combo",id:"landUnit",value:1,width:200,
+						options:[{id:1,value:"Dunam"},
+								 {id:2,value:"Hectare"}]
+						},
+						{view:"combo",id:"currencyUnit",value:1,width:200,
+						options:[{id:1,value:"NIS"},
+								 {id:2,value:"USD"}]
+						}
+				]},
+				{view:"text",id:"currencyRate",label:"Currency rate (1 NIS to USD):",value:0.26, labelWidth:200,inputWidth:270}
+				]
+				});
+	
+		var UnitChoiceLand = $$("landUnit").getValue();
+		localStorage.unit = UnitChoiceLand;
+		$$("landUnit").attachEvent("onChange", function(){
+			UnitChoiceLand = $$("landUnit").getValue();
+			localStorage.unit = UnitChoiceLand;
+		});
+		
+		var UnitChoiceCurrency = $$("currencyUnit").getValue();
+		localStorage.unitCurrency = UnitChoiceCurrency;
+		$$("currencyUnit").attachEvent("onChange", function(){
+			UnitChoiceCurrency = $$("currencyUnit").getValue();
+			localStorage.unitCurrency = UnitChoiceCurrency;
+		});
+		
+		var CurrencyRate= $$("currencyRate").getValue();
+		localStorage.unitCurrencyRate = CurrencyRate;
+		$$("currencyRate").attachEvent("onChange", function(){
+			CurrencyRate = $$("currencyRate").getValue();
+			localStorage.unitCurrencyRate = CurrencyRate;
+		});
+		
+		var money = [];
+		
+		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
+		money = $.getJSON(exchangeRateURL, function(data) {
+		  console.log(data.query.results.rate.Rate);
+		});  
+		
+		//if (money){
+		//	console.log(localStorage.money)
+		//  	console.log($$("currencyRate").getValue())
+		//	$$("currencyRate").setValue(localStorage.money);
+		//	localStorage.unitCurrencyRate = localStorage.money;
+		//}
+		console.log(4)
+		console.log(money)
+		
+	</script>
+
+	
+	
+		<script>
+		
+		
+	</body> 
+</html>
