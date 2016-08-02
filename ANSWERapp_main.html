@@ -290,10 +290,10 @@ webix.ui({
                 rows:[
 						{view:"label", label:"Economic parameters:", css:"myBold"},
 						{view:"text", label:"Dunam amount:", id: "dunamAmount", value: 50, inputWidth:300, labelWidth:220, bottomPadding:12},
-						{view:"text", label:"Revenue (per ton):", id: "revenuePerTon", value: 3100, inputWidth:300, labelWidth:220, bottomPadding:12},
-						{view:"text", label:"Return (per dunam):", id: "returnPerDunam", value: 6649, inputWidth:300, labelWidth:220, bottomPadding:12},
-						{view:"text", label:"Yield dependent costs (per ton):", id: "yieldCostsPerTon", value: 1235, inputWidth:300, labelWidth:220, bottomPadding:12},
-						{view:"text", label:"Fixed costs (per dunam):", id: "fixedCostsPerDunam", value: 44135, inputWidth:300, labelWidth:220, bottomPadding:12},
+						{view:"text", label:"Revenue (per ton):", id: "revenuePerTon", value: 3100, inputWidth:300, labelWidth:220, bottomPadding:12, tooltip:"Seasonal revenue of crop per ton"},
+						{view:"text", label:"Return (per dunam):", id: "returnPerDunam", value: 6649, inputWidth:300, labelWidth:220, bottomPadding:12, tooltip:"Return on investment over the years, with 7% interest"},
+						{view:"text", label:"Yield dependent costs (per ton):", id: "yieldCostsPerTon", value: 1235, inputWidth:300, labelWidth:220, bottomPadding:12, tooltip:"Yield dependent costs per ton"},
+						{view:"text", label:"Fixed costs (per dunam):", id: "fixedCostsPerDunam", value: 44135, inputWidth:300, labelWidth:220, bottomPadding:12, tooltip:"Fixed costs, such as - work, pesticides, etc."},
 						{view:"text", label:"Season length (months):", id: "seasonLength", value: 10, inputWidth:300, labelWidth:220, bottomPadding:14},
 					]
 					}
