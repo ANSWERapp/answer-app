@@ -107,13 +107,22 @@
 		  money = data;
 		});  
 		
+		$.getJSON(exchangeRateURL, callbackFunctionData);
+		
+		function callbackFuncWithData(data)
+		{
+		  console.log(data.query.results.rate.Rate);
+		  money = data;
+		  return money;
+		}  
+		
 		//if (money){
 		//	console.log(localStorage.money)
 		//  	console.log($$("currencyRate").getValue())
 		//	$$("currencyRate").setValue(localStorage.money);
 		//	localStorage.unitCurrencyRate = localStorage.money;
 		//}
-		console.log(2)
+		console.log(1)
 		console.log(money)
 		
 	</script>
