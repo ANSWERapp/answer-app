@@ -104,17 +104,14 @@
 		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
 
 		$.getJSON(exchangeRateURL, function(data) {
-		  money = data.query.results.rate.Rate;
+		  localStorage.money = data.query.results.rate.Rate;
 		});  
 		
 		if (money){
-			console.log(money)
-		  	console.log(typeof money)
-		  	console.log(Object.values(money))
-		  	console.log(typeof Number(money))
+			console.log(localStorage.money)
 		  	console.log($$("currencyRate").getValue())
-			$$("currencyRate").setValue(Number(money));
-			localStorage.unitCurrencyRate = CurrencyRate;
+			$$("currencyRate").setValue(localStorage.money);
+			localStorage.unitCurrencyRate = localStorage.money;
 		}
 		console.log(4)
 		
