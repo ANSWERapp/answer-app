@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="webix.css" type="text/css" charset="utf-8">
         <script src="webix.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	</head>	
     <body>
 		<div style="height:200px;background-color:forestgreen;">
@@ -113,7 +114,13 @@
 		    money = parseFloat(data.rate, 10);
 		}
 		showRate();
-		console.log(2)
+		console.log(3)
+		
+		var exchangeRateURL = "http://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
+
+		$.getJSON(exchangeRateURL, function(data) {
+		  console.log(data.query.results.rate.Rate);
+		});  
 		
 	</script>
 	
