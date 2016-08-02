@@ -105,7 +105,7 @@
 		}
 		function getRate(from, to) {
 		    var script = document.createElement('script');
-		    script.setAttribute('src', "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys"+from+"&to="+to+"&format=json&callback=sendRate");
+		    script.setAttribute('src', "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json&callback=sendRate");
 		    document.body.appendChild(script);
 		}
 		
