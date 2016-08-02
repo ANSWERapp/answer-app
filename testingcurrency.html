@@ -104,7 +104,7 @@
 		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
 		money = $.getJSON(exchangeRateURL, function(data) {
 		  var tt = [];
-		  tt.append(data.query.results.rate.Rate);
+		  tt.push(data.query.results.rate.Rate);
 		});  
 		
 		//if (money){
