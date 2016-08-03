@@ -102,17 +102,19 @@
 		var money = [];
 		
 		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
-	 	$.getJSON(exchangeRateURL, function(data) {
+	 	//$.getJSON(exchangeRateURL, function(data) {
 		  //console.log(data.query.results.rate.Rate);
-		  money = data;
-		});  
+		  //money = data;
+		//});  
 		
 		$.getJSON(exchangeRateURL, callbackFunctionData);
 		
 		function callbackFunctionData(data)
 		{
 		  //console.log(data.query.results.rate.Rate);
-		  money = data.query.results.rate.Rate;
+		  var mon = data.query.results.rate.Rate;
+		  money.push(mon)
+		  console.log(mon)
 		  console.log(money)
 		  return money;
 		}  
@@ -123,7 +125,7 @@
 		//	$$("currencyRate").setValue(localStorage.money);
 		//	localStorage.unitCurrencyRate = localStorage.money;
 		//}
-		console.log(3)
+		console.log(4)
 		console.log(money)
 		
 	</script>
