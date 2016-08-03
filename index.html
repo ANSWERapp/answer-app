@@ -99,21 +99,20 @@
 			localStorage.unitCurrencyRate = CurrencyRate;
 		});
 		
-		//var money = [];
+		var money = [];
 		
-		//var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
-
-		//$.getJSON(exchangeRateURL, function(data) {
-		//  localStorage.money = data.query.results.rate.Rate;
-		//});  
+		var exchangeRateURL = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.xchange%20where%20pair%20in%20%28%22ILSUSD%22%29&env=store://datatables.org/alltableswithkeys&format=json"
 		
-		//if (money){
-		//	console.log(localStorage.money)
-		//  	console.log($$("currencyRate").getValue())
-		//	$$("currencyRate").setValue(localStorage.money);
-		//	localStorage.unitCurrencyRate = localStorage.money;
-		//}
-		//console.log(4)
+		$.getJSON(exchangeRateURL, callbackFunctionData);
+		
+		function callbackFunctionData(data){
+			money = data.query.results.rate.Rate;
+			if (money){
+				$$("currencyRate").setValue(money);
+				localStorage.unitCurrencyRate = money;
+			}
+			return money;
+		}  
 		
 	</script>
 	
