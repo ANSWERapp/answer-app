@@ -111,11 +111,12 @@
 		
 		function callbackFunctionData(data)
 		{
-		  //console.log(data.query.results.rate.Rate);
-		  var mon = data.query.results.rate.Rate;
-		  money.push(mon)
-		  console.log(mon)
-		  console.log(money)
+		//console.log(data.query.results.rate.Rate);
+		money = data.query.results.rate.Rate;
+		if (money){
+			$$("currencyRate").setValue(money);
+			localStorage.unitCurrencyRate = money;
+		}
 		  return money;
 		}  
 		
