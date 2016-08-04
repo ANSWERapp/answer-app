@@ -371,6 +371,8 @@ webix.ui({
 	
 	$$("devUpto30").setValue(Number($$("devUpto30").getValue())*currencyRate)
 	$$("devAbove30").setValue(Number($$("devAbove30").getValue())*currencyRate)
+	$$("devUpto8").setValue(Number($$("devUpto8").getValue())*currencyRate)
+	$$("devAbove8").setValue(Number($$("devAbove8").getValue())*currencyRate)
 
 // bind fresh water checkbox ad brackish water checkbox:
 	$$("freshCheckbox").attachEvent("onChange", function(){
@@ -831,7 +833,7 @@ function calculateProfit(){
 		for(n=0; n<irrArrayLength; n++){
 			yieldcosts[n] = M*rYdata[k][n];
 			revenue[n] = N*rYdata[k][n];
-			prof_n[n] = revenue[n]-yieldcosts[n]-FixedPerD-ReturnPerD-waterPrice[k][n];
+			prof_n[n] = revenue[n]-yieldcosts[n]-FixedPerD-ReturnPerD-(waterPrice[k][n]/landUnit);
 		}
 		prof[k] = prof_n.map(function(x) {return x*Dun;});
 	}
