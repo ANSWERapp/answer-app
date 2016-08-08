@@ -2,7 +2,7 @@
 		
 function changeLabelsHectare(){
 			
-	$$("quotaPerDunam").define("label", "Quota per hectare:");
+	$$("quotaPerDunam").define("label", "Quota per hectare [m^3]:");
 	$$("quotaPerDunam").refresh();
 
 	$$("dunamAmount").define("label", "Hectare amount:");
