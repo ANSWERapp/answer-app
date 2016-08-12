@@ -19,10 +19,10 @@ var cropsDataSet = [
 		
 var soilsDataSet = [
 		
-		{"id":1, "soilName": "Clay", "Ks":225, "Beta":0.15, "Eta":2.2, "Theta_s":0.6, "Theta_r":0.1, "PsiWater":300 },
-		{"id":2, "soilName": "Sand", "Ks":17000, "Beta":1.3, "Eta":4.5, "Theta_s":0.33, "Theta_r":0.03, "PsiWater":80 },
+		{"id":1, "soilName": "Sand", "Ks":17000, "Beta":1.3, "Eta":4.5, "Theta_s":0.33, "Theta_r":0.03, "PsiWater":80 },
+		{"id":2, "soilName": "Loamy sand", "Ks":4700, "Beta":0.7, "Eta":3.5, "Theta_s":0.36, "Theta_r":0.03, "PsiWater":100 },
 		{"id":3, "soilName": "Sandy loam", "Ks":3600, "Beta":0.55, "Eta":2.7, "Theta_s":0.41, "Theta_r":0.06, "PsiWater":200 },
 		{"id":4, "soilName": "Silt loam", "Ks":600, "Beta":0.25, "Eta":2.5, "Theta_s":0.46, "Theta_r":0.05, "PsiWater":300 },	
-		{"id":5, "soilName": "Loamy sand", "Ks":4700, "Beta":0.7, "Eta":3.5, "Theta_s":0.36, "Theta_r":0.03, "PsiWater":100 }
-		
+		{"id":5, "soilName": "Clay", "Ks":225, "Beta":0.15, "Eta":2.2, "Theta_s":0.6, "Theta_r":0.1, "PsiWater":300 }
+			
 		];
