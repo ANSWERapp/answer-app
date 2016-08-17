@@ -16,6 +16,9 @@ function changeLabelsHectare(){
 
 	$$("maxYieldLabel").define("label", "[ton/hectare]");
 	$$("maxYieldLabel").refresh();
+	
+	$$("landChosenUnit").define("value", "Hectare");
+	$$("landChosenUnit").refresh();
 }
 	
 		
