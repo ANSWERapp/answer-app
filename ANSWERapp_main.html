@@ -23,6 +23,14 @@
 	<img id="myImage" src="ANSWERicon.png" style="float:left;margin-top:6px">
 		<h1 style="color:gray;font-family:'PT Sans',Tahoma;" id="header">ANSWER application</h1>
 		
+	<script>
+	// Using wrong browser (IE):
+		var isIE = /*@cc_on!@*/false || !!document.documentMode;
+		if (isIE) {
+			window.alert("This application does NOT work on Internet Explorer. Please use a different browser.")
+		}
+	</script>
+
 	<div id="modelSection" style="width:85vp;height:50vp;float:left;">
 	
 		<div id="areaA" style="width:350px;height:370px;"></div>
