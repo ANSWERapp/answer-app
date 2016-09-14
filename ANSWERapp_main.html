@@ -675,7 +675,7 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	
 	iArray[0] = "EC/I";
 	for (j=1; j<(irrArrayLength+1); j++){
-	iArray[j] = iMin+j*iStep;
+	iArray[j] = iMin+(j-1)*iStep;
 	}
 	
 	var myArray = yr_EC_I();
