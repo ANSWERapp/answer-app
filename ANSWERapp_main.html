@@ -419,6 +419,8 @@ webix.ui({
 	});
 
 var yi100=30.8325/landUnit;	//default crop - tomato
+var crpName = "Tomato";		// default
+var slName = "Sandy Loam";	//default
 // bind crop and soil choice of user to parameter values:
 	$$("croplist").attachEvent("onChange", function(id){
 		$$("Tp").setValue(cropsDataSet[(id-1)].Tp)
@@ -435,6 +437,7 @@ var yi100=30.8325/landUnit;	//default crop - tomato
 		$$("seasonLength").setValue(cropsDataSet[(id-1)].Season)
 		$$("maxYield").setValue(cropsDataSet[(id-1)].y100/landUnit)
 		yi100 = cropsDataSet[(id-1)].y100/landUnit
+		crpName = cropsDataSet[(id-1)].cropName
 		});
 	$$("soillist").attachEvent("onChange", function(id){
 		$$("Ks").setValue(soilsDataSet[(id-1)].Ks)
@@ -443,6 +446,7 @@ var yi100=30.8325/landUnit;	//default crop - tomato
 		$$("Theta_r").setValue(soilsDataSet[(id-1)].Theta_r)
 		$$("Theta_s").setValue(soilsDataSet[(id-1)].Theta_s)
 		$$("PsiWater").setValue(soilsDataSet[(id-1)].PsiWater)
+		slName = soilsDataSet[(id-1)].soilName
 		});
 		
 // limit Imin to 0.5:
@@ -696,7 +700,7 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	
 	var H = myArray.length;
 	result[H+1] = [];
-	result[H+2] = ["Crop parameters:"];
+	result[H+2] = ["Crop parameters:", crpName];
 	result[H+3] = ["Tp", Number($$("Tp").getValue())];
 	result[H+4] = ["EC50", Number($$("EC50").getValue())];
 	result[H+5] = ["p", Number($$("p").getValue())];
@@ -704,7 +708,7 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	result[H+7] = ["PsiRoot", Number($$("PsiRoot").getValue())];
 	result[H+8] = ["Yr0", Number($$("Yr0").getValue())];
 	result[H+9] = [];
-	result[H+10] = ["Soil parameters:"];
+	result[H+10] = ["Soil parameters:" slName];
 	result[H+11] = ["Ks", Number($$("Ks").getValue())];
 	result[H+12] = ["Beta", Number($$("Beta").getValue())];
 	result[H+13] = ["Eta", Number($$("Eta").getValue())];
@@ -1002,7 +1006,7 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 	
 	var H = myProfitArray.length;
 	result[H+1] = [];
-	result[H+2] = ["Crop parameters:"];
+	result[H+2] = ["Crop parameters:", crpName];
 	result[H+3] = ["Tp", Number($$("Tp").getValue())];
 	result[H+4] = ["EC50", Number($$("EC50").getValue())];
 	result[H+5] = ["p", Number($$("p").getValue())];
@@ -1010,7 +1014,7 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 	result[H+7] = ["PsiRoot", Number($$("PsiRoot").getValue())];
 	result[H+8] = ["Yr0", Number($$("Yr0").getValue())];
 	result[H+9] = [];
-	result[H+10] = ["Soil parameters:"];
+	result[H+10] = ["Soil parameters:" slName];
 	result[H+11] = ["Ks", Number($$("Ks").getValue())];
 	result[H+12] = ["Beta", Number($$("Beta").getValue())];
 	result[H+13] = ["Eta", Number($$("Eta").getValue())];
