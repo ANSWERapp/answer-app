@@ -999,7 +999,34 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 	};
 	result[0] = iArray_new;
 	result[0][0] = "EC/I"
-
+	
+	var H = myProfitArray.length;
+	result[H+1] = [];
+	result[H+2] = ["Crop parameters:"];
+	result[H+3] = ["Tp", Number($$("Tp").getValue())];
+	result[H+4] = ["EC50", Number($$("EC50").getValue())];
+	result[H+5] = ["p", Number($$("p").getValue())];
+	result[H+6] = ["b", Number($$("b").getValue())];
+	result[H+7] = ["PsiRoot", Number($$("PsiRoot").getValue())];
+	result[H+8] = ["Yr0", Number($$("Yr0").getValue())];
+	result[H+9] = [];
+	result[H+10] = ["Soil parameters:"];
+	result[H+11] = ["Ks", Number($$("Ks").getValue())];
+	result[H+12] = ["Beta", Number($$("Beta").getValue())];
+	result[H+13] = ["Eta", Number($$("Eta").getValue())];
+	result[H+14] = ["Theta_s", Number($$("Theta_s").getValue())];
+	result[H+15] = ["Theta_r", Number($$("Theta_r").getValue())];
+	result[H+16] = ["PsiWater", Number($$("PsiWater").getValue())];
+	result[H+17] = [];
+	result[H+18] = ["Economic parameters:"];
+	result[H+19] = ["Land Amount", Number($$("dunamAmount").getValue())];
+	result[H+20] = ["Revenue", Number($$("revenuePerTon").getValue())];
+	result[H+21] = ["Return", Number($$("returnPerDunam").getValue())];
+	result[H+22] = ["Yield dependent costs", Number($$("yieldCostsPerTon").getValue())];
+	result[H+23] = ["Fixed costs", Number($$("fixedCostsPerDunam").getValue())];
+	result[H+24] = ["Season length, Number($$("seasonLength").getValue())];
+	result[H+25] = ["Max yield, Number($$("maxYield").getValue())];		
+	
 	saveProfitToExcel(result)
 });
 	
