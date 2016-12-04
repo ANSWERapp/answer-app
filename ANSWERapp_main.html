@@ -1025,7 +1025,31 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 	result[H+22] = ["Yield dependent costs", Number($$("yieldCostsPerTon").getValue())];
 	result[H+23] = ["Fixed costs", Number($$("fixedCostsPerDunam").getValue())];
 	result[H+24] = ["Season length", Number($$("seasonLength").getValue())];
-	result[H+25] = ["Max yield", Number($$("maxYield").getValue())];		
+	result[H+25] = ["Max yield", Number($$("maxYield").getValue())];	
+	result[H+26] = [];
+	result[H+27] = ["Water pricing:"];
+	if ($$("freshCheckbox").getValue()==1){
+		result[H+28] = ["Fresh water:", Number($$("freshWaterPrice").getValue())]; 
+		if ($$("quotaCheckbox").getValue()==1){
+			result[H+29] = ["Including quota deviation:"];
+			result[H+30] = ["Up to",Number($$("freshDev").getValue())/100, "%", ,Number($$("devUpto30").getValue())];
+			result[H+31] = ["Above",Number($$("freshDev").getValue())/100, "%", ,Number($$("devAbove30").getValue())];
+		}
+	} else {
+		result[H+28] = ["Brackish water:"];
+		result[H+29] = ["Salinity < 1.9", Number($$("s1_9").getValue())];
+		result[H+30] = ["Salinity 1.9-2.65", Number($$("s1_9_2_65").getValue())];
+		result[H+31] = ["Salinity 2.65-3.4", Number($$("s2_65_3_4").getValue())];
+		result[H+32] = ["Salinity 3.4-4.1", Number($$("s3_4_4_1").getValue())];
+		result[H+33] = ["Salinity 4.1-4.8", Number($$("s4_1_4_8").getValue())];
+		result[H+34] = ["Salinity 4.8-5.2", Number($$("s4_8_5_2").getValue())];
+		result[H+35] = ["Salinity > 5.2", Number($$("s5_2").getValue())];
+		if ($$("quotaCheckbox").getValue()==1){
+			result[H+36] = ["Including quota deviation:"];
+			result[H+37] = ["Up to",Number($$("brackishDev").getValue())/100, "%", ,Number($$("devUpto8").getValue()),"%"];
+			result[H+38] = ["Above",Number($$("brackishDev").getValue())/100, "%", ,Number($$("devAbove8").getValue()),"%"];
+		}
+	}
 	
 	saveProfitToExcel(result)
 });
