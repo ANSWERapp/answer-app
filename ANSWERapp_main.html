@@ -695,9 +695,25 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	result[0] = iArray;
 	
 	var H = myArray.length;
-	console.log(H)
-	console.log(result)
-	result[H+1] = ["Tp",3];
+//	console.log(H)
+//	console.log(result)
+	result[H+1] = [];
+	result[H+2] = ["Crop parameters:"];
+	result[H+3] = ["Tp", Number($$("Tp").getValue())];
+	result[H+4] = ["EC50", Number($$("EC50").getValue())];
+			V0 = Number($$("Theta_r").getValue());
+		V1 = Number($$("Theta_s").getValue());
+		V2 = Number($$("Beta").getValue());
+		V3 = Number($$("Eta").getValue());
+		V4 = Number($$("PsiWater").getValue());
+		V5 = Number($$("Ks").getValue());
+		V6 = V3/V2; //Delta
+		V7 = Number($$("Tp").getValue());
+		V8 = Number($$("EC50").getValue());
+		V9 = Number($$("p").getValue());
+		V10 = Number($$("b").getValue());
+		V11 = Number($$("PsiRoot").getValue());
+		V12 = Number($$("Yr0").getValue());
 	saveToExcel(result)
 });
 
