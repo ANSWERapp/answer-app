@@ -1032,8 +1032,8 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 		result[H+28] = ["Fresh water:", Number($$("freshWaterPrice").getValue())]; 
 		if ($$("quotaCheckbox").getValue()==1){
 			result[H+29] = ["Including quota deviation:"];
-			result[H+30] = ["Up to",Number($$("freshDev").getValue())/100, "%", ,Number($$("devUpto30").getValue())];
-			result[H+31] = ["Above",Number($$("freshDev").getValue())/100, "%", ,Number($$("devAbove30").getValue())];
+			result[H+30] = ["Up to",Number($$("freshDev").getValue()), "%", ,Number($$("devUpto30").getValue())];
+			result[H+31] = ["Above",Number($$("freshDev").getValue()), "%", ,Number($$("devAbove30").getValue())];
 		}
 	} else {
 		result[H+28] = ["Brackish water:"];
@@ -1046,8 +1046,8 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 		result[H+35] = ["Salinity > 5.2", Number($$("s5_2").getValue())];
 		if ($$("quotaCheckbox").getValue()==1){
 			result[H+36] = ["Including quota deviation:"];
-			result[H+37] = ["Up to",Number($$("brackishDev").getValue())/100, "%", ,Number($$("devUpto8").getValue()),"%"];
-			result[H+38] = ["Above",Number($$("brackishDev").getValue())/100, "%", ,Number($$("devAbove8").getValue()),"%"];
+			result[H+37] = ["Up to",Number($$("brackishDev").getValue()), "%", ,Number($$("devUpto8").getValue()),"%"];
+			result[H+38] = ["Above",Number($$("brackishDev").getValue()), "%", ,Number($$("devAbove8").getValue()),"%"];
 		}
 	}
 	
