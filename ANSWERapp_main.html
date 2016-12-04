@@ -695,6 +695,8 @@ $$("exoprtYieldtoExcel").attachEvent("onItemClick", function(){
 	result[0] = iArray;
 	
 	var H = myArray.length;
+	console.log(H)
+	console.log(result)
 	result[H+2] = "Tp";
 	saveToExcel(result)
 });
