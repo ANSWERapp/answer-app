@@ -1024,8 +1024,8 @@ $$("exoprtProfittoExcel").attachEvent("onItemClick", function(){
 	result[H+21] = ["Return", Number($$("returnPerDunam").getValue())];
 	result[H+22] = ["Yield dependent costs", Number($$("yieldCostsPerTon").getValue())];
 	result[H+23] = ["Fixed costs", Number($$("fixedCostsPerDunam").getValue())];
-	result[H+24] = ["Season length, Number($$("seasonLength").getValue())];
-	result[H+25] = ["Max yield, Number($$("maxYield").getValue())];		
+	result[H+24] = ["Season length", Number($$("seasonLength").getValue())];
+	result[H+25] = ["Max yield", Number($$("maxYield").getValue())];		
 	
 	saveProfitToExcel(result)
 });
